@@ -1,0 +1,25 @@
+.navbar-brand{
+    color: white;
+}
+.grid-responsive {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  @media (max-width: 992px) {
+    .grid-responsive {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .grid-responsive {
+      grid-template-columns: 1fr;
+    }
+  }
+  ul {
+    list-style: none;
+  }
+    
+
