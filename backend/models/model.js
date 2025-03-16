@@ -53,9 +53,23 @@ const actualizarPerfil = async (usuario_id, datosActualizados) => {
   }
 };
 
+const getProducts = async () => {
+  try {
+    const result = await pool.query('SELECT * FROM productos');
+    if (result.rowCount > 0) {
+      return result.rows;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error('Error al obtener productos:', error.message);
+    throw error;
+  }
+};
 
 export const model = {
     createUser,
     getUserByEmail,
-    actualizarPerfil
+    actualizarPerfil,
+    getProducts
 }

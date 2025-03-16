@@ -12,4 +12,6 @@ router.get('/usuario', middleware.authenticateToken, controller.getUser);
 
 router.put('/usuario', middleware.authenticateToken, controller.updateUserProfile);
 
+router.get('/productos', controller.getProducts);
+
 export default router

@@ -10,8 +10,8 @@ const ShoppingCart = () => {
         return pizzas.find(pizza => pizza.id === pizzaId);
     };
       
-    const formatPrice = (price) => {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    const formatPrice = (precio) => {
+        return precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     };
 
     console.log("Contenido del carrito:", cart);
@@ -31,17 +31,17 @@ const ShoppingCart = () => {
                     <div 
                         style={{display:"flex", margin: "1rem"}}>
                             <img 
-                                src={pizzaInfo.img} 
-                                alt={pizzaInfo.name} 
+                                src={pizzaInfo.imagen} 
+                                alt={pizzaInfo.nombre} 
                                 style={{ marginRight: '10px', width: '100px' }} />
-                            <p>{upperCase(pizzaInfo.name)}</p>
+                            <p>{upperCase(pizzaInfo.nombre)}</p>
                     </div>
                         
                             
                             <div>
-                                <span><b>${formatPrice(pizzaInfo.price * item.quantity)}</b></span>
+                                <span><b>${formatPrice(pizzaInfo.precio * item.quantity)}</b></span>
                                 <button 
-                                    onClick={() => addToCart(item.id, pizzaInfo.price)}
+                                    onClick={() => addToCart(item.id, pizzaInfo.precio)}
                                     className="btn btn-info m-2">
                                     +
                                 </button>

@@ -1,30 +1,46 @@
-import React, {createContext, useState, useEffect} from 'react'
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
-export const PizzaContext = createContext()
+export const PizzaContext = createContext();
 
-const PizzaProvider = ({children}) => {
-
+const PizzaProvider = ({ children }) => {
     const [pizzas, setPizzas] = useState([]);
 
     const getPizzas = async () => {
-      const response = await fetch("/pizzas.json");
-      const data = await response.json();
-      setPizzas(data);
+        try {
+            const response = await axios.get('http://localhost:3000/productos');
+            setPizzas(response.data);
+            console.log(response.data); 
+        } catch (error) {
+            console.error('Error al obtener productos:', error);
+        }
     };
-  
+
     useEffect(() => {
-      getPizzas();
+        getPizzas();
     }, []);
 
+    // Función para convertir la primera letra a mayúscula de una cadena
     const upperCase = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1)
-    }
+        if (typeof string === 'string') {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        return string; 
+    };
 
-  return (
-    <PizzaContext.Provider value={{pizzas, upperCase}}>
-        {children}
-    </PizzaContext.Provider>
-  )
-}
+    
+    const formatIngredients = (ingredients) => {
+        if (Array.isArray(ingredients)) {
+            return ingredients.map(ingredient => upperCase(ingredient));
+        }
+        return ingredients;
+    };
 
-export default PizzaProvider
+    return (
+        <PizzaContext.Provider value={{ pizzas, upperCase, formatIngredients }}>
+            {children}
+        </PizzaContext.Provider>
+    );
+};
+
+export default PizzaProvider;

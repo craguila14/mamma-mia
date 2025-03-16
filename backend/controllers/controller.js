@@ -87,9 +87,20 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
+const getProducts = async (req, res) => {
+    try {
+        const products = await model.getProducts();
+        res.json(products);
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+        res.status(500).json({ error: 'Error al obtener productos', details: error.message });
+    }
+};
+
 export const controller = {
     registerUser,
     loginUser,
     getUser,
-    updateUserProfile
+    updateUserProfile,
+    getProducts
 }

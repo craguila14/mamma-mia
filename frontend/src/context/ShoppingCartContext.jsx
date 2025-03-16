@@ -7,7 +7,7 @@ const ShoppingCartProvider = ({children}) => {
 
     const [cart, setCart] = useState([])
 
-    const addToCart = (id, price) => {
+    const addToCart = (id, precio) => {
        setCart((currItems) => {
         const isItemsFound = currItems.find((item) => item.id === id)
         if (isItemsFound){
@@ -19,7 +19,7 @@ const ShoppingCartProvider = ({children}) => {
                 }
             })
         } else {
-            return [...currItems, {id, quantity: 1, price}]
+            return [...currItems, {id, quantity: 1, precio}]
         }
        }) 
     }
@@ -40,14 +40,14 @@ const ShoppingCartProvider = ({children}) => {
         });
       };
 
-      const formatPrice = (price) => {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+      const formatPrice = (precio) => {
+        return precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     };
 
     const calculateTotal = () => {
         let total = 0;
         cart.forEach(item => {
-            total += item.price * item.quantity;
+            total += item.precio * item.quantity;
         });
         return formatPrice(total);
     };
