@@ -18,5 +18,6 @@ router.get('/productos', controller.getProducts);
 //admin
 
 router.post('/admin-add-product', adminController.addProduct);
+router.put('/admin-edit-product/:id', adminController.editProduct);
 
 export default router

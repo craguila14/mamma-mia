@@ -13,8 +13,20 @@ const addProduct = async (req, res) => {
     }
 };
 
+const editProduct = async (req, res) => {
+    const { nombre, precio, imagen, ingredientes, categoria, descripcion } = req.body;
+    const { id } = req.params;
+
+    try {
+        const updatedProduct = await adminModel.editProduct(id, nombre, precio, imagen, ingredientes, categoria, descripcion);
+        res.status(200).json(updatedProduct);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al editar producto' });
+    }
+};
 
 export const adminController = {
-    addProduct
+    addProduct,
+    editProduct
 }
 
