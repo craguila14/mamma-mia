@@ -1,5 +1,6 @@
 import express from 'express'
 import { controller } from '../controllers/controller.js'
+import { adminController } from '../controllers/adminController.js'
 import { middleware } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
@@ -13,5 +14,9 @@ router.get('/usuario', middleware.authenticateToken, controller.getUser);
 router.put('/usuario', middleware.authenticateToken, controller.updateUserProfile);
 
 router.get('/productos', controller.getProducts);
+
+//admin
+
+router.post('/admin-add-product', adminController.addProduct);
 
 export default router

@@ -3,10 +3,11 @@ import format from 'pg-format';
 
 const createUser = async (nombre, apellido, email, password) => {
     try {
-        const result = await pool.query(
-            'INSERT INTO usuarios (nombre, apellido, email, password) VALUES ($1, $2, $3, $4) RETURNING *',
-            [nombre, apellido, email, password]
-        );
+
+        const query = format('INSERT INTO usuarios (nombre, apellido, email, password) VALUES ($1, $2, $3, $4) RETURNING *',
+            nombre, apellido, email, password)
+
+        const result = await pool.query(query);
         if (result.rowCount > 0) {
             return result.rows[0];
         } else {
