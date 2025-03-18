@@ -37,7 +37,27 @@ const editProduct = async (id, nombre, precio, imagen, ingredientes, categoria, 
     }
 };
 
+const deleteProduct = async (id) => {
+    try {
+        const query = 'DELETE FROM productos WHERE id = $1 RETURNING *';
+        const values = [id];
+
+        const result = await pool.query(query, values);
+
+        if (result.rowCount > 0) {
+            return result.rows[0]; 
+        } else {
+            return false; 
+        }
+    } catch (error) {
+        console.error('Error al eliminar producto:', error.message);
+        throw error;
+    }
+}
+
+
 export const adminModel = {
     addProduct,
-    editProduct
+    editProduct,
+    deleteProduct
 };

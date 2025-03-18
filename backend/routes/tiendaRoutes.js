@@ -19,5 +19,5 @@ router.get('/productos', controller.getProducts);
 
 router.post('/admin-add-product', adminController.addProduct);
 router.put('/admin-edit-product/:id', adminController.editProduct);
-
+router.delete('/admin-delete-product/:id', adminController.deleteProduct);
 export default router
