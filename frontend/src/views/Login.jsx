@@ -22,13 +22,11 @@ const Login = () => {
     event.preventDefault();
     const form = event.currentTarget;
 
-    // Verificación de campos vacíos
     if (!credentials.email.trim() || !credentials.password.trim()) {
       setError('Email y contraseña son obligatorios.');
       return;
     }
 
-    // Validación de formato de email
     if (!emailRegex.test(credentials.email)) {
       setError('El formato del email no es correcto!');
       return;
@@ -44,7 +42,12 @@ const Login = () => {
       const { success, message } = await loginUser(credentials.email, credentials.password);
       if (success) {
         alert(message);
-        navigate('/'); 
+
+        if (credentials.email === 'admin@gmail.com') {
+          navigate('/admin'); 
+        } else {
+          navigate('/'); 
+        }
       } else {
         setError(message);
       }
