@@ -10,6 +10,8 @@ import Login from "./views/Login";
 import Perfil from "./views/Perfil";
 import { AuthProvider } from "./context/AuthContext";
 import Admin from "./views/Admin";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const App = () => {
@@ -32,6 +34,7 @@ const App = () => {
     </PizzaProvider>
     </ShoppingCartProvider>
     </AuthProvider>
+    <ToastContainer />
 
     </div>
   );

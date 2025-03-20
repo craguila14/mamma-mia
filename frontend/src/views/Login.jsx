@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Button, Card, Col, Form } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 const initialForm = { email: '', password: '' };
 
 const Login = () => {
-  const { loginUser } = useAuth();
+  const { loginUser, currentUser } = useAuth();
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState(initialForm);
   const [error, setError] = useState('');
@@ -41,13 +43,25 @@ const Login = () => {
     try {
       const { success, message } = await loginUser(credentials.email, credentials.password);
       if (success) {
-        alert(message);
+        // Mostrar notificación personalizada
+        toast.success(`¡Bienvenido, ${currentUser.nombre} ${currentUser.apellido}!`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
 
-        if (credentials.email === 'admin@gmail.com') {
-          navigate('/admin'); 
-        } else {
-          navigate('/'); 
-        }
+        setTimeout(() => {
+          if (credentials.email === 'admin@gmail.com') {
+            navigate('/admin');
+          } else {
+            navigate('/');
+          }
+        }, 3000); // Esperar 3 segundos antes de redirigir
       } else {
         setError(message);
       }
@@ -102,6 +116,7 @@ const Login = () => {
           </Form>
         </Card.Body>
       </Card>
+      <ToastContainer />
     </div>
   );
 };
