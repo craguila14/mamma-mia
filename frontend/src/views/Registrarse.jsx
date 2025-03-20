@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { Button, Card, Col, Form } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
@@ -32,11 +31,24 @@ const Registrarse = () => {
     event.preventDefault();
     const form = event.currentTarget;
 
+    // Validar campos vacíos
     for (const field in user) {
       if (user[field] === '') {
         setError('Por favor, complete todos los campos.');
         return;
       }
+    }
+
+    // Validar formato de email
+    if (!emailRegex.test(user.email)) {
+      setError('El formato del email no es correcto.');
+      return;
+    }
+
+    // Validar contraseñas coincidan
+    if (user.password !== user.confirmedPassword) {
+      setError('Las contraseñas no coinciden.');
+      return;
     }
 
     if (form.checkValidity() === false) {
@@ -45,34 +57,33 @@ const Registrarse = () => {
       return;
     }
 
-    if (!emailRegex.test(user.email)) {
-      setError('El formato del email no es correcto!');
-      return;
-    }
-
-    if (user.password !== user.confirmedPassword) {
-      setError('Las contraseñas no coinciden');
-      return;
-    }
-
     try {
-      const { success, message } = await registerUser({
-        nombre: user.nombre,
-        apellido: user.apellido,
-        email: user.email,
-        password: user.password,
-      });
-      
+      const { success, message } = await registerUser(user);
       if (success) {
-        alert(`Bienvenido ${user.nombre} ${user.apellido}, tu registro fue exitoso`);
-        navigate('/login');
+        // Mostrar notificación de éxito
+        toast.success('¡Registro exitoso! Ahora puedes iniciar sesión.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+
+        // Redirigir al login después de 3 segundos
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       } else {
-        alert(message);
+        setError(message);
       }
     } catch (error) {
       console.error('Error al registrar usuario:', error);
       setError('Error al registrar usuario. Por favor, inténtelo de nuevo.');
     }
+
     setValidated(true);
   };
 
@@ -93,6 +104,7 @@ const Registrarse = () => {
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group as={Col} controlId="validationCustom02" className="mb-3">
               <Form.Control
                 required
@@ -104,6 +116,7 @@ const Registrarse = () => {
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group as={Col} controlId="validationCustom03" className="mb-3">
               <Form.Control
                 required
@@ -115,6 +128,7 @@ const Registrarse = () => {
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group as={Col} controlId="validationCustom04" className="mb-3">
               <Form.Control
                 required
@@ -126,24 +140,28 @@ const Registrarse = () => {
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group as={Col} controlId="validationCustom05" className="mb-3">
               <Form.Control
                 required
                 type="password"
-                placeholder="Confirmar contraseña"
+                placeholder="Confirmar Contraseña"
                 name="confirmedPassword"
                 value={user.confirmedPassword}
                 onChange={handleChange}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
+
             {error && <div className="text-danger">{error}</div>}
-            <Button type="submit" className="mt-3 w-100">Registrar</Button>
+
+            <Button type="submit" className="mt-3 w-100">Registrarse</Button>
           </Form>
         </Card.Body>
       </Card>
+      <ToastContainer />
     </div>
   );
-}
+};
 
 export default Registrarse;
