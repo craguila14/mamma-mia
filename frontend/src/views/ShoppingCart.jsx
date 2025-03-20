@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../context/ShoppingCartContext';
 import { PizzaContext } from '../context/PizzaContext';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ const ShoppingCart = () => {
     const { pizzas, upperCase } = useContext(PizzaContext);
     const { currentUser } = useAuth(); 
     const navigate = useNavigate();
+    const [warning, setWarning] = useState(''); // Estado para el mensaje de advertencia
 
     const getPizzaInfo = (pizzaId) => {
         return pizzas.find(pizza => pizza.id === pizzaId);
@@ -19,6 +20,12 @@ const ShoppingCart = () => {
     };
 
     const handleCheckout = () => {
+        if (cart.length === 0) {
+            // Mostrar advertencia si el carrito está vacío
+            setWarning('El carrito está vacío. Agrega productos antes de proceder al pago.');
+            return;
+        }
+
         if (!currentUser) {
             // Si el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
             navigate('/login');
@@ -74,6 +81,8 @@ const ShoppingCart = () => {
             <button className='btn btn-success' onClick={handleCheckout}>
                 Ir a pagar
             </button>
+            {/* Mostrar advertencia si el carrito está vacío */}
+            {warning && <span style={{ color: 'red', marginLeft: '10px' }}>{warning}</span>}
         </div>
     );
 }
