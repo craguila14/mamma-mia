@@ -20,7 +20,11 @@ const ShoppingCart = () => {
 
     const handleCheckout = () => {
         if (!currentUser) {
+            // Si el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
             navigate('/login');
+        } else {
+            // Si el usuario ha iniciado sesión, redirigir a la página de confirmación
+            navigate('/confirmacion');
         }
     };
 

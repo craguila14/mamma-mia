@@ -10,7 +10,7 @@ import Login from "./views/Login";
 import Perfil from "./views/Perfil";
 import { AuthProvider } from "./context/AuthContext";
 import Admin from "./views/Admin";
-
+import Confirmacion from "./views/Confirmacion";
 
 const App = () => {
 
@@ -28,6 +28,7 @@ const App = () => {
           <Route path="/login" element={<Login/>}/>
           <Route path="/perfil" element={<Perfil/>}/>
           <Route path="/admin" element={<Admin/>}/>
+          <Route path="*" element={<Confirmacion/>}/>
        </Routes>
     </PizzaProvider>
     </ShoppingCartProvider>
