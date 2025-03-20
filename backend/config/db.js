@@ -2,7 +2,7 @@ import pg from 'pg';
 import 'dotenv/config'
 const { Pool } = pg;
 
-const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE } = process.env;
+const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE, DB_CHARSET } = process.env;
 
 const config = {
     host: DB_HOST,
@@ -10,6 +10,7 @@ const config = {
     user: DB_USER,
     password: DB_PASSWORD,
     database: DB_DATABASE,
+    charset: DB_CHARSET,
     allowExitOnIdle: true
 }
 
