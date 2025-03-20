@@ -16,24 +16,40 @@ const NavbarComponent = () => {
 
   const setActiveClass = ({ isActive }) => (isActive ? "active" : "notActive");
 
-  const renderLinks = () => (
-    <Nav className="me-auto">
-      <Nav.Link as={NavLink} className={setActiveClass} to="/" style={{ color: "white" }}>
-        🍕 Pizzería Mamma Mia!
-      </Nav.Link>
-      {currentUser && (
-        <>
+  const renderLinks = () => {
+    if (currentUser?.email === 'admin@gmail.com') {
+      // Links para el administrador
+      return (
+        <Nav className="me-auto">
+          <Nav.Link as={NavLink} className={setActiveClass} to="/admin" style={{ color: "white" }}>
+            🍕 Pizzería Mamma Mia! (Admin)
+          </Nav.Link>
           <Nav.Link as={NavLink} className={setActiveClass} to="/perfil" style={{ color: "white" }}>
             Mi perfil
           </Nav.Link>
-          <Nav.Link as={NavLink} className={setActiveClass} to="/carrito" style={{ color: "white" }}>
-            Carrito
-          </Nav.Link>
-          
-        </>
-      )}
-    </Nav>
-  );
+        </Nav>
+      );
+    }
+
+    // Links para usuarios normales
+    return (
+      <Nav className="me-auto">
+        <Nav.Link as={NavLink} className={setActiveClass} to="/" style={{ color: "white" }}>
+          🍕 Pizzería Mamma Mia!
+        </Nav.Link>
+        {currentUser && (
+          <>
+            <Nav.Link as={NavLink} className={setActiveClass} to="/perfil" style={{ color: "white" }}>
+              Mi perfil
+            </Nav.Link>
+            <Nav.Link as={NavLink} className={setActiveClass} to="/carrito" style={{ color: "white" }}>
+              Carrito
+            </Nav.Link>
+          </>
+        )}
+      </Nav>
+    );
+  };
 
   const renderAuthLinks = () => {
     if (!currentUser) {
@@ -54,15 +70,14 @@ const NavbarComponent = () => {
 
     return (
       <>
-        <Button className="me-2" variant="primary" onClick={() => navigate('/carrito')}>
-          Ir a pagar
-        </Button>
         <Button variant="secondary" onClick={handleLogout}>
           Cerrar sesión
         </Button>
-        <Nav.Link as={NavLink} className={setActiveClass} to="/carrito" style={{ color: "white" }}>
+        {currentUser.email !== 'admin@gmail.com' && (
+          <Nav.Link as={NavLink} className={setActiveClass} to="/carrito" style={{ color: "white" }}>
             <span>Total: $ {calculateTotal()}</span> 🛒
           </Nav.Link>
+        )}
       </>
     );
   };

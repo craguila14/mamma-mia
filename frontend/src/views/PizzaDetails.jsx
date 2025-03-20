@@ -25,21 +25,21 @@ const PizzaDetails = () => {
     return (
         <div key={pizza.id} style={{margin: "2rem", display: "flex"}}>
             <div style={{marginRight: "1rem"}}>
-                <img src={pizza.img} alt={pizza.name}/>
+                <img src={pizza.imagen} alt={pizza.nombre}/>
             </div>
             <div>
-                <h2>{upperCase(pizza.name)}</h2>
+                <h2>{upperCase(pizza.nombre)}</h2>
                 <hr></hr>
-                <p>{pizza.desc}</p>
+                <p>{pizza.descripcion}</p>
                 <p className="card-text"><b>Ingredientes:</b></p>
                 <ul>
-                    {pizza.ingredients.map((ingredient, index) => (
+                    {pizza.ingredientes.map((ingredient, index) => (
                         <li key={index}>🍕 {upperCase(ingredient)}</li>
                     ))}
                 </ul>
                 <div style={{display: "flex", justifyContent: "space-between"}}>
-                <h4>Precio: ${formatPrice(pizza.price)}</h4>
-                <button className="btn btn-danger" onClick={() => addToCart(pizza.id, pizza.price)}>Añadir 🛒</button>
+                <h4>Precio: ${formatPrice(pizza.precio)}</h4>
+                <button className="btn btn-danger" onClick={() => addToCart(pizza.id, pizza.precio)}>Añadir 🛒</button>
                 </div>
             </div>
         </div>

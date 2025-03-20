@@ -26,7 +26,7 @@ const Admin = () => {
     const { name, value } = e.target;
     setNuevoProducto({
       ...nuevoProducto,
-      [name]: name === 'precio' ? parseFloat(value) || '' : value, // Convertir a número si es el campo precio
+      [name]: name === 'precio' ? parseFloat(value) || '' : value
     });
   };
 
@@ -62,7 +62,12 @@ const Admin = () => {
   // Editar un producto
   const handleEdit = (producto) => {
     setEditandoProducto(producto);
-    setNuevoProducto({ nombre: producto.nombre, precio: producto.precio, imagen: producto.imagen, ingredientes: producto.ingredientes, categoria: producto.categoria, descripcion: producto.descripcion });
+    setNuevoProducto({ 
+      nombre: producto.nombre, 
+      precio: producto.precio, 
+      imagen: producto.imagen, 
+      ingredientes: producto.ingredientes, categoria: producto.categoria, 
+      descripcion: producto.descripcion });
   };
 
   // Actualizar un producto
@@ -88,8 +93,10 @@ const Admin = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Nombre</th>
+            <th>Imagen</th>
+            <th>Ingredientes</th>
+            <th>Descripción</th>
             <th>Precio</th>
             <th>Acciones</th>
           </tr>
@@ -97,8 +104,18 @@ const Admin = () => {
         <tbody>
           {productos.map((producto) => (
             <tr key={producto.id}>
-              <td>{producto.id}</td>
               <td>{producto.nombre}</td>
+              <td>
+          <img
+            src={producto.imagen}
+            alt={producto.nombre}
+            style={{ width: '100px', height: 'auto' }}
+          />
+        </td>
+              <td style={{ width: '200px' }}>
+                {Array.isArray(producto.ingredientes) ? producto.ingredientes.join(', ') : producto.ingredientes}
+              </td>
+              <td style={{width: '300px'}}>{producto.descripcion}</td>
               <td>{producto.precio}</td>
               <td>
                 <Button
@@ -182,7 +199,7 @@ const Admin = () => {
             required
           />
         </Form.Group>
-        <Button type="submit" variant="primary" className="mt-3">
+        <Button type="submit" variant="primary" className="mt-3" style={{marginBottom: '20px'}}>
           {editandoProducto ? 'Actualizar Producto' : 'Agregar Producto'}
         </Button>
         {editandoProducto && (
