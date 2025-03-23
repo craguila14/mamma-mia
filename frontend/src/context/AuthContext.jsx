@@ -33,13 +33,21 @@ export const AuthProvider = ({ children }) => {
   const fetchUserData = async (token) => {
     try {
       const response = await axios.get(ENDPOINT.users, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
-      setCurrentUser({...response.data, token});
+      if (response.data) {
+        const userData = { ...response.data, token }; 
+        setCurrentUser(userData); 
+        return userData;
+      } else {
+        console.error('No se encontraron datos del usuario.');
+        return null; 
+      }
     } catch (error) {
       console.error('Error fetching user data:', error);
-      Cookies.remove('token')
-      setCurrentUser(null);;
+      Cookies.remove('token');
+      setCurrentUser(null);
+      throw new Error('Error al obtener los datos del usuario.');
     } finally {
       setLoading(false);
     }
@@ -49,9 +57,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('http://localhost:3000/login', { email, password });
       if (response.data.token) {
-        Cookies.set('token', response.data.token, { expires: 7 }); // La cookie expira en 7 días
-        await fetchUserData(response.data.token);
-        return { success: true, message: 'Inicio de sesión exitoso.' };
+        Cookies.set('token', response.data.token, { expires: 7 });
+        const userData = await fetchUserData(response.data.token);
+        return { success: true, message: 'Inicio de sesión exitoso.', user: userData };
       }
     } catch (error) {
       console.error('Error de login:', error);
