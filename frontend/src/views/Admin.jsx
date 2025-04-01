@@ -1,226 +1,105 @@
 import React, { useState, useEffect } from 'react';
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import AddProduct from '../components/AddProduct';
+import EditProduct from '../components/EditProduct';
+import DeleteProduct from '../components/DeleteProduct';
 
 const Admin = () => {
-  const [productos, setProductos] = useState([]);
-  const [nuevoProducto, setNuevoProducto] = useState({ nombre: '', precio: '', imagen: '', ingredientes: '', categoria: '', descripcion: '' });
-  const [editandoProducto, setEditandoProducto] = useState(null);
+    const [productos, setProductos] = useState([]);
+    const [editandoProducto, setEditandoProducto] = useState(null);
 
-  useEffect(() => {
-    const fetchProductos = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/productos');
-        setProductos(response.data);
-      } catch (error) {
-        console.error('Error al obtener los productos:', error);
-      }
+    useEffect(() => {
+        const fetchProductos = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/productos');
+                setProductos(response.data);
+            } catch (error) {
+                console.error('Error al obtener los productos:', error);
+            }
+        };
+
+        fetchProductos();
+    }, []);
+
+    const handleProductAdded = (nuevoProducto) => {
+        setProductos((prev) => [...prev, nuevoProducto]);
     };
 
-    fetchProductos();
-  }, []);
+    const handleProductUpdated = (productoActualizado) => {
+        setProductos((prev) =>
+            prev.map((producto) => (producto.id === productoActualizado.id ? productoActualizado : producto))
+        );
+        setEditandoProducto(null);
+    };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNuevoProducto({
-      ...nuevoProducto,
-      [name]: name === 'precio' ? parseFloat(value) || '' : value
-    });
-  };
+    const handleProductDeleted = (productoId) => {
+        setProductos((prev) => prev.filter((producto) => producto.id !== productoId));
+    };
 
+    return (
+        <div style={{ padding: '2rem' }}>
+            <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Administrar Productos</h1>
 
-  const handleAdd = async (e) => {
-    e.preventDefault();
-    try {
-           const productoConIngredientes = {
-        ...nuevoProducto,
-        ingredientes: nuevoProducto.ingredientes.split(',').map((ing) => ing.trim()), // Convertir a arreglo
-      };
+            {/* Lista de Productos */}
+            <div style={{ marginBottom: '2rem' }}>
+                <h2>Lista de Productos</h2>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    {productos.map((producto) => (
+                        <li
+                            key={producto.id}
+                            style={{
+                                border: '1px solid #ccc',
+                                borderRadius: '8px',
+                                padding: '1rem',
+                                marginBottom: '1rem',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <div>
+                                <h3 style={{ margin: 0 }}>{producto.nombre}</h3>
+                                <p style={{ margin: '0.5rem 0' }}>Precio: ${producto.precio}</p>
+                                <p style={{ margin: '0.5rem 0' }}>Categoría: {producto.categoria}</p>
+                            </div>
+                            <div>
+                                <button
+                                    onClick={() => setEditandoProducto(producto)}
+                                    style={{
+                                        padding: '0.5rem 1rem',
+                                        backgroundColor: '#007bff',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        marginRight: '0.5rem',
+                                    }}
+                                >
+                                    Editar
+                                </button>
+                                <DeleteProduct productoId={producto.id} onProductDeleted={handleProductDeleted} />
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
-      const response = await axios.post('http://localhost:3000/admin-add-product', productoConIngredientes);
-      setProductos([...productos, response.data]);
-      setNuevoProducto({ nombre: '', precio: '', imagen: '', ingredientes: '', categoria: '', descripcion: '' }); // Limpiar el formulario
-    } catch (error) {
-      console.error('Error al agregar el producto:', error);
-      console.log(nuevoProducto);
-    }
-  };
+            {/* Editar Producto */}
+            {editandoProducto && (
+                <div style={{ marginBottom: '2rem' }}>
+                    <EditProduct
+                        producto={editandoProducto}
+                        onProductUpdated={handleProductUpdated}
+                        onCancel={() => setEditandoProducto(null)}
+                    />
+                </div>
+            )}
 
-  // Eliminar un producto
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3000/admin-delete-product/${id}`);
-      setProductos(productos.filter((producto) => producto.id !== id));
-    } catch (error) {
-      console.error('Error al eliminar el producto:', error);
-    }
-  };
-
-  // Editar un producto
-  const handleEdit = (producto) => {
-    setEditandoProducto(producto);
-    setNuevoProducto({ 
-      nombre: producto.nombre, 
-      precio: producto.precio, 
-      imagen: producto.imagen, 
-      ingredientes: producto.ingredientes, categoria: producto.categoria, 
-      descripcion: producto.descripcion });
-  };
-
-  // Actualizar un producto
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.put(`http://localhost:3000/admin-edit-product/${editandoProducto.id}`, nuevoProducto);
-      setProductos(
-        productos.map((producto) =>
-          producto.id === editandoProducto.id ? response.data : producto
-        )
-      );
-      setEditandoProducto(null); 
-      setNuevoProducto({ nombre: '', precio: '', imagen: '', ingredientes: '', categoria: '', descripcion: '' }); // Limpiar el formulario
-    } catch (error) {
-      console.error('Error al actualizar el producto:', error);
-    }
-  };
-
-  return (
-    <div className="container" style={{marginTop: '76px'}}>
-      <h2 className="text-center mb-4">Administrar Productos</h2>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Imagen</th>
-            <th>Ingredientes</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productos.map((producto) => (
-            <tr key={producto.id}>
-              <td>{producto.nombre}</td>
-              <td>
-          <img
-            src={producto.imagen}
-            alt={producto.nombre}
-            style={{ width: '100px', height: 'auto' }}
-          />
-        </td>
-              <td style={{ width: '200px' }}>
-                {Array.isArray(producto.ingredientes) ? producto.ingredientes.join(', ') : producto.ingredientes}
-              </td>
-              <td style={{width: '300px'}}>{producto.descripcion}</td>
-              <td>{producto.precio}</td>
-              <td>
-                <Button
-                  variant="warning"
-                  onClick={() => handleEdit(producto)}
-                  className="me-2"
-                >
-                  Editar
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDelete(producto.id)}
-                >
-                  Eliminar
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-
-      <Form onSubmit={editandoProducto ? handleUpdate : handleAdd} className="mt-4">
-        <Form.Group controlId="nombre">
-          <Form.Label>Nombre</Form.Label>
-          <Form.Control
-            type="text"
-            name="nombre"
-            value={nuevoProducto.nombre}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="precio" className="mt-3">
-          <Form.Label>Precio</Form.Label>
-          <Form.Control
-            type="number"
-            name="precio"
-            value={nuevoProducto.precio}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="imagen" className="mt-3">
-          <Form.Label>Imagen (URL)</Form.Label>
-          <Form.Control
-            type="text"
-            name="imagen"
-            value={nuevoProducto.imagen}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="ingredientes" className="mt-3">
-          <Form.Label>Ingredientes</Form.Label>
-          <Form.Control
-            type="text"
-            name="ingredientes"
-            value={nuevoProducto.ingredientes}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group controlId="categoria" className="mt-3">
-          <Form.Label>Categoría</Form.Label>
-          <Form.Control
-            as="select"
-            name="categoria"
-            value={nuevoProducto.categoria}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Selecciona una categoría</option>
-            <option value="pizzas">Pizzas</option>
-            <option value="pastas">Pastas</option>
-            <option value="postres">Postres</option>
-          </Form.Control>
-        </Form.Group>
-        <Form.Group controlId="descripcion" className="mt-3">
-          <Form.Label>Descripción</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            name="descripcion"
-            value={nuevoProducto.descripcion}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Button type="submit" variant="primary" className="mt-3" style={{marginBottom: '20px'}}>
-          {editandoProducto ? 'Actualizar Producto' : 'Agregar Producto'}
-        </Button>
-        {editandoProducto && (
-          <Button
-            variant="secondary"
-            className="mt-3 ms-2"
-            onClick={() => {
-              setEditandoProducto(null);
-              setNuevoProducto({ nombre: '', precio: '', imagen: '', ingredientes: '', categoria: '', descripcion: '' });
-            }}
-          >
-            Cancelar
-          </Button>
-        )}
-      </Form>
-    </div>
-  );
+            {/* Agregar Producto */}
+            <div>
+                <AddProduct onProductAdded={handleProductAdded} />
+            </div>
+        </div>
+    );
 };
 
 export default Admin;
