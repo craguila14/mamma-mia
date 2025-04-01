@@ -43,7 +43,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<Confirmacion/>}/>
+          <Route path="/confirmacion" element={<Confirmacion/>}/>
        </Routes>
     </PizzaProvider>
     </ShoppingCartProvider>

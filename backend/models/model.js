@@ -68,9 +68,27 @@ const getProducts = async () => {
   }
 };
 
+const getProductByCategory = async (categoria) => {
+  try {
+    const query = 'SELECT * FROM productos WHERE categoria = $1'; 
+    const values = [categoria];
+    const result = await pool.query(query, values); 
+
+    if (result.rowCount > 0) {
+      return result.rows; 
+    } else {
+      return []; 
+    }
+  } catch (error) {
+    console.error('Error al obtener productos por categoría:', error.message);
+    throw error; 
+  }
+};
+
 export const model = {
     createUser,
     getUserByEmail,
     actualizarPerfil,
-    getProducts
+    getProducts,
+    getProductByCategory 
 }

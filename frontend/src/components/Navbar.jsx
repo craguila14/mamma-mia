@@ -18,7 +18,6 @@ const NavbarComponent = () => {
 
   const renderLinks = () => {
     if (currentUser?.email === 'admin@gmail.com') {
-      // Links para el administrador
       return (
         <Nav className="me-auto">
           <Nav.Link as={NavLink} className={setActiveClass} to="/admin" style={{ color: "white" }}>
@@ -31,7 +30,7 @@ const NavbarComponent = () => {
       );
     }
 
-    // Links para usuarios normales
+    
     return (
       <Nav className="me-auto">
         <Nav.Link as={NavLink} className={setActiveClass} to="/" style={{ color: "white" }}>
