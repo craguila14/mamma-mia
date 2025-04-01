@@ -1,50 +1,50 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { PizzaContext } from '../context/PizzaContext'
+import { ProductsContext } from '../context/ProductsContext'
 import { useParams } from 'react-router-dom'
 import { CartContext } from '../context/ShoppingCartContext'
 
-const PizzaDetails = () => {
-    const { pizzas, upperCase } = useContext(PizzaContext)
+const ProductsDetails = () => {
+    const { products, upperCase } = useContext(ProductsContext)
     const { id } = useParams()
-    const [pizza, setPizza] = useState(null)
+    const [product, setProduct] = useState(null)
     const {addToCart} = useContext(CartContext)
 
     useEffect(() => {
-        const foundPizza = pizzas.find(pizza => pizza.id === id)
-        setPizza(foundPizza)
-    }, [pizzas, id])
+        const foundProduct = products.find(product => product.id === id)
+        setProduct(foundProduct)
+    }, [products, id])
 
     const formatPrice = (price) => {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     };
 
-    if (!pizza) {
+    if (!product) {
         return <div>Cargando...</div>
     }
 
     return (
-        <div key={pizza.id} style={{margin: "2rem", display: "flex"}}>
+        <div key={product.id} style={{margin: "2rem", display: "flex", marginTop: "76px"}}>
             <div style={{marginRight: "1rem"}}>
-                <img src={pizza.imagen} alt={pizza.nombre}/>
+                <img src={product.imagen} alt={product.nombre}/>
             </div>
             <div>
-                <h2>{upperCase(pizza.nombre)}</h2>
+                <h2>{upperCase(product.nombre)}</h2>
                 <hr></hr>
-                <p>{pizza.descripcion}</p>
+                <p>{product.descripcion}</p>
                 <p className="card-text"><b>Ingredientes:</b></p>
                 <ul>
-                    {pizza.ingredientes.map((ingredient, index) => (
+                    {product.ingredientes.map((ingredient, index) => (
                         <li key={index}>🍕 {upperCase(ingredient)}</li>
                     ))}
                 </ul>
                 <div style={{display: "flex", justifyContent: "space-between"}}>
-                <h4>Precio: ${formatPrice(pizza.precio)}</h4>
-                <button className="btn btn-danger" onClick={() => addToCart(pizza.id, pizza.precio)}>Añadir 🛒</button>
+                <h4>Precio: ${formatPrice(product.precio)}</h4>
+                <button className="btn btn-danger" onClick={() => addToCart(product.id, product.precio)}>Añadir 🛒</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default PizzaDetails
+export default ProductsDetails
 

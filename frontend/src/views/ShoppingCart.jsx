@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../context/ShoppingCartContext';
-import { PizzaContext } from '../context/PizzaContext';
+import { ProductsContext } from '../context/ProductsContext';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const ShoppingCart = () => {
     const { cart, addToCart, removeItem, calculateTotal } = useContext(CartContext);
-    const { pizzas, upperCase } = useContext(PizzaContext);
+    const { products, upperCase } = useContext(ProductsContext);
     const { currentUser } = useAuth(); 
     const navigate = useNavigate();
-    const [warning, setWarning] = useState(''); // Estado para el mensaje de advertencia
+    const [warning, setWarning] = useState(''); 
 
-    const getPizzaInfo = (pizzaId) => {
-        return pizzas.find(pizza => pizza.id === pizzaId);
+    const getProductInfo = (productId) => {
+        return products.find(product => product.id === productId);
     };
       
     const formatPrice = (precio) => {
@@ -21,16 +21,13 @@ const ShoppingCart = () => {
 
     const handleCheckout = () => {
         if (cart.length === 0) {
-            // Mostrar advertencia si el carrito está vacío
             setWarning('El carrito está vacío. Agrega productos antes de proceder al pago.');
             return;
         }
 
         if (!currentUser) {
-            // Si el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
             navigate('/login');
         } else {
-            // Si el usuario ha iniciado sesión, redirigir a la página de confirmación
             navigate('/confirmacion');
         }
     };
@@ -44,7 +41,7 @@ const ShoppingCart = () => {
         <h3>Detalles del pedido:</h3>
         <br></br>
             {cart.map(item => {
-                const pizzaInfo = getPizzaInfo(item.id);
+                const productInfo = getProductInfo(item.id);
                 return (
                     <div 
                         key={item.id} 
@@ -52,17 +49,17 @@ const ShoppingCart = () => {
                     <div 
                         style={{display:"flex", margin: "1rem"}}>
                             <img 
-                                src={pizzaInfo.imagen} 
-                                alt={pizzaInfo.nombre} 
+                                src={productInfo.imagen} 
+                                alt={productInfo.nombre} 
                                 style={{ marginRight: '10px', width: '100px' }} />
-                            <p>{upperCase(pizzaInfo.nombre)}</p>
+                            <p>{upperCase(productInfo.nombre)}</p>
                     </div>
                         
                             
                             <div>
-                                <span><b>${formatPrice(pizzaInfo.precio * item.quantity)}</b></span>
+                                <span><b>${formatPrice(productInfo.precio * item.quantity)}</b></span>
                                 <button 
-                                    onClick={() => addToCart(item.id, pizzaInfo.precio)}
+                                    onClick={() => addToCart(item.id, productInfo.precio)}
                                     className="btn btn-info m-2">
                                     +
                                 </button>

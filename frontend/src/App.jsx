@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import PizzaProvider from "./context/PizzaContext";
+import ProductsProvider from "./context/ProductsContext";
 import Home from "./views/Home";
-import PizzaDetails from "./views/PizzaDetails";
+import ProductsDetails from "./views/ProductsDetails";
 import ShoppingCart from "./views/ShoppingCart";
 import ShoppingCartProvider from "./context/ShoppingCartContext";
 import Registrarse from "./views/Registrarse";
@@ -19,11 +19,11 @@ const App = () => {
     <div>
   <AuthProvider>
     <ShoppingCartProvider>
-    <PizzaProvider>
+    <ProductsProvider>
       <Navbar/>
        <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="/pizza/:id" element={<PizzaDetails/>}/>
+          <Route path="/producto/:id" element={<ProductsDetails/>}/>
           <Route path="/carrito" element={<ShoppingCart/>}/>
           <Route path="/registrarse" element={<Registrarse/>}/>
           <Route path="/login" element={<Login/>}/>
@@ -45,7 +45,7 @@ const App = () => {
           />
           <Route path="/confirmacion" element={<Confirmacion/>}/>
        </Routes>
-    </PizzaProvider>
+    </ProductsProvider>
     </ShoppingCartProvider>
     </AuthProvider>
 

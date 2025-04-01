@@ -30,12 +30,11 @@ const Admin = () => {
     });
   };
 
-  // Agregar un nuevo producto
+
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      // Convertir ingredientes a un arreglo
-      const productoConIngredientes = {
+           const productoConIngredientes = {
         ...nuevoProducto,
         ingredientes: nuevoProducto.ingredientes.split(',').map((ing) => ing.trim()), // Convertir a arreglo
       };
@@ -80,7 +79,7 @@ const Admin = () => {
           producto.id === editandoProducto.id ? response.data : producto
         )
       );
-      setEditandoProducto(null); // Salir del modo de edición
+      setEditandoProducto(null); 
       setNuevoProducto({ nombre: '', precio: '', imagen: '', ingredientes: '', categoria: '', descripcion: '' }); // Limpiar el formulario
     } catch (error) {
       console.error('Error al actualizar el producto:', error);
@@ -88,7 +87,7 @@ const Admin = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container" style={{marginTop: '76px'}}>
       <h2 className="text-center mb-4">Administrar Productos</h2>
       <Table striped bordered hover>
         <thead>

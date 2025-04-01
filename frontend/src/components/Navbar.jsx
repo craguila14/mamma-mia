@@ -82,7 +82,12 @@ const NavbarComponent = () => {
   };
 
   return (
-    <Navbar bg="info" expand="lg" variant="dark">
+    <Navbar bg="info" expand="lg" variant="dark" style={{
+                position: 'fixed',
+                top: 0, 
+                width: '100%', 
+                zIndex: 1000,
+            }}>
       <Container>
         {renderLinks()}
         <Navbar.Collapse className="justify-content-end">
