@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
 const DeleteProduct = ({ productoId, onProductDeleted }) => {
     const handleDelete = async () => {
@@ -12,12 +13,15 @@ const DeleteProduct = ({ productoId, onProductDeleted }) => {
     };
 
     return (
-        <button
-            onClick={handleDelete}
-            style={{ padding: '0.5rem 1rem', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px' }}
+        <Button
+            variant="danger"
+            size="sm"
+            onClick={() => setEditandoProducto(producto)}
+            style={{ marginRight: '0.5rem' }}
         >
+        
             Eliminar Producto
-        </button>
+        </Button>
     );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Table, Button } from 'react-bootstrap';
 import AddProduct from '../components/AddProduct';
 import EditProduct from '../components/EditProduct';
 import DeleteProduct from '../components/DeleteProduct';
@@ -7,6 +8,7 @@ import DeleteProduct from '../components/DeleteProduct';
 const Admin = () => {
     const [productos, setProductos] = useState([]);
     const [editandoProducto, setEditandoProducto] = useState(null);
+    const [mostrarAgregar, setMostrarAgregar] = useState(false);
 
     useEffect(() => {
         const fetchProductos = async () => {
@@ -23,13 +25,14 @@ const Admin = () => {
 
     const handleProductAdded = (nuevoProducto) => {
         setProductos((prev) => [...prev, nuevoProducto]);
+        setMostrarAgregar(false);
     };
 
     const handleProductUpdated = (productoActualizado) => {
         setProductos((prev) =>
             prev.map((producto) => (producto.id === productoActualizado.id ? productoActualizado : producto))
         );
-        setEditandoProducto(null);
+        setEditandoProducto(null); 
     };
 
     const handleProductDeleted = (productoId) => {
@@ -37,53 +40,68 @@ const Admin = () => {
     };
 
     return (
-        <div style={{ padding: '2rem' }}>
+        <div style={{ padding: '2rem', marginTop: '56px' }}>
             <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Administrar Productos</h1>
 
-            {/* Lista de Productos */}
-            <div style={{ marginBottom: '2rem' }}>
+            <div style={{ marginBottom: '2rem', marginTop: '56px'}}>
                 <h2>Lista de Productos</h2>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                    {productos.map((producto) => (
-                        <li
-                            key={producto.id}
-                            style={{
-                                border: '1px solid #ccc',
-                                borderRadius: '8px',
-                                padding: '1rem',
-                                marginBottom: '1rem',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <div>
-                                <h3 style={{ margin: 0 }}>{producto.nombre}</h3>
-                                <p style={{ margin: '0.5rem 0' }}>Precio: ${producto.precio}</p>
-                                <p style={{ margin: '0.5rem 0' }}>Categoría: {producto.categoria}</p>
-                            </div>
-                            <div>
-                                <button
-                                    onClick={() => setEditandoProducto(producto)}
-                                    style={{
-                                        padding: '0.5rem 1rem',
-                                        backgroundColor: '#007bff',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '4px',
-                                        marginRight: '0.5rem',
-                                    }}
-                                >
-                                    Editar
-                                </button>
-                                <DeleteProduct productoId={producto.id} onProductDeleted={handleProductDeleted} />
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+                <Table striped bordered hover responsive>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Categoría</th>
+                            <th>Ingredientes</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {productos.map((producto) => (
+                            <tr key={producto.id}>
+                                <td>{producto.nombre}</td>
+                                <td>${producto.precio}</td>
+                                <td>{producto.categoria}</td>
+                                <td>{producto.ingredientes ? producto.ingredientes.join(', ') : 'N/A'}</td>
+                                <td>
+                                    <img
+                                        src={producto.imagen}
+                                        alt={producto.nombre}
+                                        style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                    />
+                                </td>
+                                <td>
+                                    <Button
+                                        variant="primary"
+                                        size="sm"
+                                        onClick={() => setEditandoProducto(producto)}
+                                        style={{ marginRight: '0.5rem' }}
+                                    >
+                                        Editar
+                                    </Button>
+                                    <DeleteProduct productoId={producto.id} onProductDeleted={handleProductDeleted} />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
             </div>
 
-            {/* Editar Producto */}
+            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                <Button
+                    variant="success"
+                    onClick={() => setMostrarAgregar(!mostrarAgregar)}
+                    style={{ padding: '0.5rem 1rem', borderRadius: '4px' }}
+                >
+                    {mostrarAgregar ? 'Ocultar Formulario' : 'Agregar Producto'}
+                </Button>
+            </div>
+            {mostrarAgregar && (
+                <div style={{ marginBottom: '2rem' }}>
+                    <AddProduct onProductAdded={handleProductAdded} />
+                </div>
+            )}
+
             {editandoProducto && (
                 <div style={{ marginBottom: '2rem' }}>
                     <EditProduct
@@ -94,10 +112,6 @@ const Admin = () => {
                 </div>
             )}
 
-            {/* Agregar Producto */}
-            <div>
-                <AddProduct onProductAdded={handleProductAdded} />
-            </div>
         </div>
     );
 };
