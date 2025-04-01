@@ -11,6 +11,7 @@ import Perfil from "./views/Perfil";
 import { AuthProvider } from "./context/AuthContext";
 import Admin from "./views/Admin";
 import Confirmacion from "./views/Confirmacion";
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
 
@@ -26,8 +27,22 @@ const App = () => {
           <Route path="/carrito" element={<ShoppingCart/>}/>
           <Route path="/registrarse" element={<Registrarse/>}/>
           <Route path="/login" element={<Login/>}/>
-          <Route path="/perfil" element={<Perfil/>}/>
-          <Route path="/admin" element={<Admin/>}/>
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <Perfil />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<Confirmacion/>}/>
        </Routes>
     </PizzaProvider>

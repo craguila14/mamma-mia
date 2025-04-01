@@ -181,12 +181,17 @@ const Admin = () => {
         <Form.Group controlId="categoria" className="mt-3">
           <Form.Label>Categoría</Form.Label>
           <Form.Control
-            type="text"
+            as="select"
             name="categoria"
             value={nuevoProducto.categoria}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="">Selecciona una categoría</option>
+            <option value="pizzas">Pizzas</option>
+            <option value="pastas">Pastas</option>
+            <option value="postres">Postres</option>
+          </Form.Control>
         </Form.Group>
         <Form.Group controlId="descripcion" className="mt-3">
           <Form.Label>Descripción</Form.Label>
