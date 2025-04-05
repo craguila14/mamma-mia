@@ -41,13 +41,11 @@ const Login = () => {
     try {
       const { success, message, user } = await loginUser(credentials.email, credentials.password);
       if (success) {
-        alert(`Bienvenido ${user.nombre}!`);
+        navigate('/'); 
 
         if (credentials.email === 'admin@gmail.com') {
           navigate('/admin'); 
-        } else {
-          navigate('/'); 
-        }
+        } 
       } else {
         setError(message);
       }

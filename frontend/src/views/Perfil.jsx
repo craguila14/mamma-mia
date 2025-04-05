@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Card, Form, Button, Col } from 'react-bootstrap';
-import { FaEdit } from 'react-icons/fa';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+
 const Perfil = () => {
-  const { currentUser, setCurrentUser} = useAuth(); 
+  const { currentUser, setCurrentUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState({
     nombre: currentUser?.nombre || '',
     apellido: currentUser?.apellido || '',
-    email: currentUser?.email || ''
+    email: currentUser?.email || '',
   });
-  
+
+  const [passwordInfo, setPasswordInfo] = useState({
+    currentPassword: '',
+    newPassword: '',
+  });
+
   const [error, setError] = useState('');
   const [validated, setValidated] = useState(false);
 
@@ -20,39 +25,55 @@ const Perfil = () => {
     const { name, value } = e.target;
     setUserInfo((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
+    }));
+  };
+
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordInfo((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   };
 
   const handleEditClick = () => {
-    setIsEditing((prev) => !prev);
+    setIsEditing(true);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
+  const handleSaveClick = async () => {
+    setError('');
+    const token = Cookies.get('token');
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
 
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
-      setValidated(true);
-      return;
-    }
-
-    if (userInfo.email && userInfo.nombre && userInfo.apellido) {
-      try {
-        const token = Cookies.get('token')
-        const config = {
-          headers: { Authorization: `Bearer ${token}` }
-        };
-        console.log(token)
+    try {
+  
+      if (userInfo.nombre && userInfo.apellido && userInfo.email) {
         const response = await axios.put('http://localhost:3000/usuario', userInfo, config);
         setCurrentUser(response.data);
-        setIsEditing(false);
-      } catch (error) {
-        setError(error.message);
+      } else {
+        setError('Por favor, complete todos los campos del perfil.');
+        return;
       }
-    } else {
-      setError('Por favor, complete todos los campos.');
+
+      if (passwordInfo.currentPassword && passwordInfo.newPassword) {
+        await axios.put(
+          'http://localhost:3000/usuario/password',
+          {
+            currentPassword: passwordInfo.currentPassword,
+            newPassword: passwordInfo.newPassword,
+          },
+          config
+        );
+        alert('Contraseña actualizada correctamente.');
+      }
+
+      setIsEditing(false);
+      setPasswordInfo({ currentPassword: '', newPassword: '' }); 
+    } catch (error) {
+      setError(error.response?.data?.message || 'Error al actualizar el perfil o la contraseña.');
     }
   };
 
@@ -60,57 +81,79 @@ const Perfil = () => {
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Card style={{ width: '30rem', padding: '20px' }}>
         <Card.Body>
-          <Card.Title className="text-center">Perfil</Card.Title>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group as={Col} controlId="validationCustom01" className="mb-3">
+          <h3 className="text-center">Perfil</h3>
+          <Form noValidate validated={validated}>
+            <Form.Group controlId="formNombre">
+              <Form.Label>Nombre</Form.Label>
               <Form.Control
-                required
                 type="text"
-                placeholder="Nombre"
                 name="nombre"
                 value={userInfo.nombre}
                 onChange={handleChange}
                 disabled={!isEditing}
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} controlId="validationCustom02" className="mb-3">
-              <Form.Control
                 required
+              />
+            </Form.Group>
+            <Form.Group controlId="formApellido" className="mt-3">
+              <Form.Label>Apellido</Form.Label>
+              <Form.Control
                 type="text"
-                placeholder="Apellido"
                 name="apellido"
                 value={userInfo.apellido}
                 onChange={handleChange}
                 disabled={!isEditing}
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} controlId="validationCustom03" className="mb-3">
-              <Form.Control
                 required
+              />
+            </Form.Group>
+            <Form.Group controlId="formEmail" className="mt-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
                 type="email"
-                placeholder="Correo electrónico"
                 name="email"
                 value={userInfo.email}
                 onChange={handleChange}
                 disabled={!isEditing}
+                required
               />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-            {error && <div className="text-danger">{error}</div>}
-            <Button type="submit" className="mt-3 w-100" disabled={!isEditing}>
-              {isEditing ? 'Guardar cambios' : 'Editar perfil'}
-            </Button>
+
+            {isEditing && (
+              <>
+                <Form.Group controlId="formCurrentPassword" className="mt-3">
+                  <Form.Label>Contraseña Actual</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="currentPassword"
+                    value={passwordInfo.currentPassword}
+                    onChange={handlePasswordChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group controlId="formNewPassword" className="mt-3">
+                  <Form.Label>Nueva Contraseña</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="newPassword"
+                    value={passwordInfo.newPassword}
+                    onChange={handlePasswordChange}
+                    required
+                  />
+                </Form.Group>
+              </>
+            )}
+
+            {error && <p className="text-danger mt-3">{error}</p>}
+
+            {!isEditing ? (
+              <Button variant="primary" className="mt-3" onClick={handleEditClick}>
+                Editar
+              </Button>
+            ) : (
+              <Button variant="success" className="mt-3" onClick={handleSaveClick}>
+                Guardar
+              </Button>
+            )}
           </Form>
-          <Button 
-            variant="link" 
-            onClick={handleEditClick} 
-            className="mt-3 w-100" 
-            aria-label={isEditing ? 'Guardar' : 'Editar'}
-          >
-            <FaEdit size={20} /> {isEditing ? 'Cancelar' : 'Editar'}
-          </Button>
         </Card.Body>
       </Card>
     </div>

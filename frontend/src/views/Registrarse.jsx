@@ -60,7 +60,7 @@ const Registrarse = () => {
     try {
       const { success, message } = await registerUser(user);
       if (success) {
-        // Mostrar notificación de éxito
+      
         toast.success('¡Registro exitoso! Ahora puedes iniciar sesión.', {
           position: "top-right",
           autoClose: 3000,
@@ -72,7 +72,7 @@ const Registrarse = () => {
           theme: "colored",
         });
 
-        // Redirigir al login después de 3 segundos
+    
         setTimeout(() => {
           navigate('/login');
         }, 3000);
