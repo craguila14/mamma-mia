@@ -99,22 +99,39 @@ const getProducts = async (req, res) => {
 
 const getProductsByCategory = async (req, res) => {
     try {
-        const { categoria } = req.params; // Obtener la categoría de la query string
+        const { categoria } = req.params; 
 
         if (!categoria) {
             return res.status(400).json({ message: 'La categoría es requerida.' });
         }
 
-        const products = await model.getProductByCategory(categoria); // Llamar a la función del modelo
+        const products = await model.getProductByCategory(categoria); 
 
         if (products.length === 0) {
             return res.status(404).json({ message: 'No se encontraron productos para esta categoría.' });
         }
 
-        res.status(200).json(products); // Enviar los productos como respuesta
+        res.status(200).json(products); 
     } catch (error) {
         console.error('Error al obtener productos por categoría:', error);
         res.status(500).json({ message: 'Error al obtener productos por categoría.', details: error.message });
+    }
+};
+
+export const updatePassword = async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const userId = req.user.id; 
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ message: 'La contraseña actual y la nueva contraseña son obligatorias.' });
+        }
+
+        const result = await model.updatePassword(userId, currentPassword, newPassword);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error al actualizar la contraseña:', error.message);
+        res.status(400).json({ message: error.message });
     }
 };
 
@@ -125,4 +142,5 @@ export const controller = {
     updateUserProfile,
     getProducts,
     getProductsByCategory, 
+    updatePassword
 };

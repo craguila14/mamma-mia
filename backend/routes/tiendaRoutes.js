@@ -17,6 +17,8 @@ router.get('/productos', controller.getProducts);
 
 router.get('/productos/categoria/:categoria', controller.getProductsByCategory);
 
+router.put('/usuario/password', middleware.authenticateToken, controller.updatePassword);
+
 //admin
 
 router.post('/admin-add-product', adminController.addProduct);

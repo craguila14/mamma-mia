@@ -1,4 +1,5 @@
 import pool from '../config/db.js'
+import bcrypt from 'bcrypt';
 import format from 'pg-format';
 
 const createUser = async (nombre, apellido, email, password) => {
@@ -85,10 +86,44 @@ const getProductByCategory = async (categoria) => {
   }
 };
 
+
+const updatePassword = async (id, currentPasswordInput, newPassword) => {
+  try {
+    
+    const query = 'SELECT password FROM usuarios WHERE id = $1';
+    const values = [id];
+    const result = await pool.query(query, values);
+
+    if (result.rowCount === 0) {
+      throw new Error('Usuario no encontrado');
+    }
+
+    const storedPassword = result.rows[0].password;
+
+    const isPasswordValid = await bcrypt.compare(currentPasswordInput, storedPassword);
+    if (!isPasswordValid) {
+      throw new Error('La contraseña actual es incorrecta');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updateQuery = 'UPDATE usuarios SET password = $1 WHERE id = $2';
+    const updateValues = [hashedPassword, id];
+    await pool.query(updateQuery, updateValues);
+
+    return { message: 'Contraseña actualizada correctamente' };
+  } catch (error) {
+    console.error('Error al actualizar la contraseña:', error.message);
+    throw error;
+  }
+};
+
+
 export const model = {
     createUser,
     getUserByEmail,
     actualizarPerfil,
     getProducts,
-    getProductByCategory 
+    getProductByCategory,
+    updatePassword
 }
