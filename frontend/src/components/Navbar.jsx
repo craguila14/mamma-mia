@@ -5,11 +5,12 @@ import { useAuth } from '../context/AuthContext';
 import { Button, Nav, Navbar, Container } from 'react-bootstrap';
 
 const NavbarComponent = () => {
-  const { calculateTotal } = useContext(CartContext);
+  const { calculateTotal, clearCart } = useContext(CartContext);
   const { currentUser, logoutUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    clearCart()
     logoutUser();
     navigate('/');
   };

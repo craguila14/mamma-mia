@@ -155,7 +155,7 @@ const Registrarse = () => {
 
             {error && <div className="text-danger">{error}</div>}
 
-            <Button type="submit" className="mt-3 w-100">Registrarse</Button>
+            <Button type="submit" className="mt-3 w-100 bg-info">Registrarse</Button>
           </Form>
         </Card.Body>
       </Card>

@@ -98,7 +98,7 @@ const Login = () => {
               </>
             )}
 
-            <Button type="submit" className="mt-3 w-100">Iniciar Sesión</Button>
+            <Button type="submit" className="mt-3 w-100 bg-info">Iniciar Sesión</Button>
           </Form>
         </Card.Body>
       </Card>

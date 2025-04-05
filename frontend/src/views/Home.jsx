@@ -9,7 +9,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getProductsByCategory('pizza'); 
+        getProductsByCategory('pizza');
     }, []);
 
     const handleVerMas = (id) => {
@@ -21,7 +21,7 @@ const Home = () => {
     };
 
     const handleCategoryClick = (categoria) => {
-        getProductsByCategory(categoria);
+        getProductsByCategory(categoria); 
     };
 
     return (
@@ -36,7 +36,6 @@ const Home = () => {
                 height: '100vh', 
                 overflowY: 'auto'
             }}>
-   
                 <ul style={{ listStyleType: 'none', padding: 0 }}>
                     <li>
                         <button
@@ -68,7 +67,6 @@ const Home = () => {
                 </ul>
         </div>
 
-            {/* Contenido Principal */}
             <div style={{ width: '80%', padding: '1rem', marginLeft: '20%' }}>
                 {loading && <p>Cargando productos...</p>}
                 {error && <p style={{ color: 'red' }}>{error}</p>}

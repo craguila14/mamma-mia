@@ -7,7 +7,7 @@ const AddProduct = ({ onProductAdded }) => {
         precio: '',
         imagen: '',
         ingredientes: '',
-        categoria: '',
+        categoria: 'pizza',
         descripcion: '',
     });
 
@@ -24,7 +24,7 @@ const AddProduct = ({ onProductAdded }) => {
         try {
             const response = await axios.post('http://localhost:3000/admin-add-product', nuevoProducto);
             onProductAdded(response.data);
-            setNuevoProducto({ nombre: '', precio: '', imagen: '', ingredientes: '', categoria: '', descripcion: '' });
+            setNuevoProducto({ nombre: '', precio: '', imagen: '', ingredientes: '', categoria: 'pizza', descripcion: '' });
         } catch (error) {
             console.error('Error al agregar el producto:', error);
         }
@@ -69,15 +69,17 @@ const AddProduct = ({ onProductAdded }) => {
                 required
                 style={{ display: 'block', marginBottom: '1rem', width: '100%', padding: '0.5rem' }}
             />
-            <input
-                type="text"
+           <select
                 name="categoria"
-                placeholder="Categoría"
                 value={nuevoProducto.categoria}
                 onChange={handleChange}
                 required
                 style={{ display: 'block', marginBottom: '1rem', width: '100%', padding: '0.5rem' }}
-            />
+            >
+                <option value="pizza">Pizza</option>
+                <option value="pasta">Pasta</option>
+                <option value="postre">Postre</option>
+            </select>
             <textarea
                 name="descripcion"
                 placeholder="Descripción"

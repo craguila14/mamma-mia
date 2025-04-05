@@ -48,7 +48,6 @@ const Perfil = () => {
         const response = await axios.put('http://localhost:3000/usuario', userInfo, config);
         setCurrentUser(response.data);
         setIsEditing(false);
-        alert('Perfil actualizado con éxito');
       } catch (error) {
         setError(error.message);
       }

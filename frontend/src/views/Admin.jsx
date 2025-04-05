@@ -50,7 +50,6 @@ const Admin = () => {
                         <tr>
                             <th>Nombre</th>
                             <th>Precio</th>
-                            <th>Categoría</th>
                             <th>Ingredientes</th>
                             <th>Imagen</th>
                             <th>Acciones</th>
@@ -61,7 +60,6 @@ const Admin = () => {
                             <tr key={producto.id}>
                                 <td>{producto.nombre}</td>
                                 <td>${producto.precio}</td>
-                                <td>{producto.categoria}</td>
                                 <td>{producto.ingredientes ? producto.ingredientes.join(', ') : 'N/A'}</td>
                                 <td>
                                     <img
