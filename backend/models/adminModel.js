@@ -1,10 +1,13 @@
 import pool from '../config/db.js';
 import format from 'pg-format';
 
-const addProduct = async (nombre, precio, imagen, ingredientes, categoria, descripcion) => {
+const addProduct = async ({ nombre, precio, imagen, ingredientes, categoria, descripcion }) => {
     try {
+
+        const ingredientesPgArray = `{${ingredientes.join(',')}}`;
+
         const query = 'INSERT INTO productos (nombre, precio, imagen, ingredientes, categoria, descripcion) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-        const values = [nombre, precio, imagen, ingredientes, categoria, descripcion];
+        const values = [nombre, precio, imagen, ingredientesPgArray, categoria, descripcion];
 
         const result = await pool.query(query, values);
 
@@ -21,8 +24,10 @@ const addProduct = async (nombre, precio, imagen, ingredientes, categoria, descr
 
 const editProduct = async (id, nombre, precio, imagen, ingredientes, categoria, descripcion) => {
     try {
+        const ingredientesPgArray = Array.isArray(ingredientes) ? `{${ingredientes.join(',')}}` : null;
+
         const query = 'UPDATE productos SET nombre = $1, precio = $2, imagen = $3, ingredientes = $4, categoria = $5, descripcion = $6 WHERE id = $7 RETURNING *';
-        const values = [nombre, precio, imagen, ingredientes, categoria, descripcion, id];
+        const values = [nombre, precio, imagen, ingredientesPgArray, categoria, descripcion, id];
 
         const result = await pool.query(query, values);
 

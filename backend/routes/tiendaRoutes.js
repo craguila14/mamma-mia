@@ -2,6 +2,7 @@ import express from 'express'
 import { controller } from '../controllers/controller.js'
 import { adminController } from '../controllers/adminController.js'
 import { middleware } from '../middleware/authMiddleware.js'
+import { upload } from '../middleware/uploadMiddleware.js'
 
 const router = express.Router()
 
@@ -21,9 +22,9 @@ router.put('/usuario/password', middleware.authenticateToken, controller.updateP
 
 //admin
 
-router.post('/admin-add-product', adminController.addProduct);
+router.post('/admin-add-product', upload.single('imagen'), adminController.addProduct);
 
-router.put('/admin-edit-product/:id', adminController.editProduct);
+router.put('/admin-edit-product/:id', upload.single('imagen'), adminController.editProduct);
 
 router.delete('/admin-delete-product/:id', adminController.deleteProduct);
 

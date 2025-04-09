@@ -5,11 +5,12 @@ const AddProduct = ({ onProductAdded }) => {
     const [nuevoProducto, setNuevoProducto] = useState({
         nombre: '',
         precio: '',
-        imagen: '',
         ingredientes: '',
         categoria: 'pizza',
         descripcion: '',
     });
+
+    const [imagen, setImagen] = useState(null); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,12 +20,38 @@ const AddProduct = ({ onProductAdded }) => {
         }));
     };
 
+    const handleImageChange = (e) => {
+        setImagen(e.target.files[0]); 
+    };
+
     const handleAdd = async (e) => {
         e.preventDefault();
+        
         try {
-            const response = await axios.post('http://localhost:3000/admin-add-product', nuevoProducto);
+            const formData = new FormData();
+            formData.append('nombre', nuevoProducto.nombre);
+            formData.append('precio', nuevoProducto.precio);
+            
+            const ingredientesArray = nuevoProducto.ingredientes.split(',').map((item) => item.trim());
+            formData.append('ingredientes', JSON.stringify(ingredientesArray));
+            
+            formData.append('categoria', nuevoProducto.categoria);
+            formData.append('descripcion', nuevoProducto.descripcion);
+            
+            if (imagen) {
+                formData.append('imagen', imagen);
+            }
+
+            const response = await axios.post('http://localhost:3000/admin-add-product', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
             onProductAdded(response.data);
-            setNuevoProducto({ nombre: '', precio: '', imagen: '', ingredientes: '', categoria: 'pizza', descripcion: '' });
+            setNuevoProducto({ nombre: '', precio: '', ingredientes: '', categoria: 'pizza', descripcion: '' });
+            setImagen(null);
+            
         } catch (error) {
             console.error('Error al agregar el producto:', error);
         }
@@ -53,15 +80,6 @@ const AddProduct = ({ onProductAdded }) => {
             />
             <input
                 type="text"
-                name="imagen"
-                placeholder="URL de la imagen"
-                value={nuevoProducto.imagen}
-                onChange={handleChange}
-                required
-                style={{ display: 'block', marginBottom: '1rem', width: '100%', padding: '0.5rem' }}
-            />
-            <input
-                type="text"
                 name="ingredientes"
                 placeholder="Ingredientes"
                 value={nuevoProducto.ingredientes}
@@ -69,7 +87,7 @@ const AddProduct = ({ onProductAdded }) => {
                 required
                 style={{ display: 'block', marginBottom: '1rem', width: '100%', padding: '0.5rem' }}
             />
-           <select
+            <select
                 name="categoria"
                 value={nuevoProducto.categoria}
                 onChange={handleChange}
@@ -77,8 +95,8 @@ const AddProduct = ({ onProductAdded }) => {
                 style={{ display: 'block', marginBottom: '1rem', width: '100%', padding: '0.5rem' }}
             >
                 <option value="pizza">Pizza</option>
-                <option value="pasta">Pasta</option>
-                <option value="postre">Postre</option>
+                <option value="pastas">Pasta</option>
+                <option value="postres">Postre</option>
             </select>
             <textarea
                 name="descripcion"
@@ -87,6 +105,14 @@ const AddProduct = ({ onProductAdded }) => {
                 onChange={handleChange}
                 required
                 style={{ display: 'block', marginBottom: '1rem', width: '100%', padding: '0.5rem' }}
+            />
+            <input
+                type="file"
+                name="imagen"
+                accept="image/*"
+                onChange={handleImageChange}
+                required
+                style={{ display: 'block', marginBottom: '1rem', width: '100%' }}
             />
             <button type="submit" style={{ padding: '0.5rem 1rem', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px' }}>
                 Agregar Producto

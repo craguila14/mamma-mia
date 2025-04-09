@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const EditProduct = ({ producto, onProductUpdated, onCancel }) => {
     const [productoEditado, setProductoEditado] = useState(producto);
+    const [imagen, setImagen] = useState(null); 
 
     useEffect(() => {
         setProductoEditado(producto);
@@ -16,13 +17,40 @@ const EditProduct = ({ producto, onProductUpdated, onCancel }) => {
         }));
     };
 
+    const handleImageChange = (e) => {
+        setImagen(e.target.files[0]); 
+    };
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:3000/admin-edit-product/${producto.id}`, productoEditado);
-            onProductUpdated(response.data); 
+            const formData = new FormData();
+            formData.append('nombre', productoEditado.nombre || ''); 
+            formData.append('precio', productoEditado.precio || 0);
+
+          
+            const ingredientesArray = typeof productoEditado.ingredientes === 'string'
+                ? productoEditado.ingredientes.split(',').map((item) => item.trim())
+                : productoEditado.ingredientes;
+
+            formData.append('ingredientes', JSON.stringify(ingredientesArray)); 
+            formData.append('categoria', productoEditado.categoria || '');
+            formData.append('descripcion', productoEditado.descripcion || '');
+
+            if (imagen) {
+                formData.append('imagen', imagen);
+            } else {
+                formData.append('imagen', productoEditado.imagen || ''); 
+            }
+
+            const response = await axios.put(`http://localhost:3000/admin-edit-product/${producto.id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            onProductUpdated(response.data);
         } catch (error) {
-            console.error('Error al actualizar el producto:', error);
+            console.error('Error al actualizar el producto:', error.response?.data || error.message);
         }
     };
 
@@ -48,13 +76,11 @@ const EditProduct = ({ producto, onProductUpdated, onCancel }) => {
                 style={{ display: 'block', marginBottom: '1rem', width: '100%', padding: '0.5rem' }}
             />
             <input 
-                type="text" 
+                type="file" 
                 name="imagen" 
-                placeholder="URL de la imagen" 
-                value={productoEditado.imagen} 
-                onChange={handleChange} 
-                required 
-                style={{ display: 'block', marginBottom: '1rem', width: '100%', padding: '0.5rem' }}
+                accept="image/*" 
+                onChange={handleImageChange} 
+                style={{ display: 'block', marginBottom: '1rem', width: '100%' }}
             />
             <input 
                 type="text" 

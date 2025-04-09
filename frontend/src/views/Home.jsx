@@ -24,6 +24,11 @@ const Home = () => {
         getProductsByCategory(categoria); 
     };
 
+    const getImageSrc = (image) => {
+        // Verifica si la imagen es una URL externa o una ruta local
+        return image.startsWith('http') ? image : `http://localhost:3000/${image}`;
+    };
+
     return (
         <div style={{ display: 'flex', marginTop: '56px' }}>
 
@@ -73,7 +78,7 @@ const Home = () => {
                 <div className="grid-responsive">
                     {products.map((product) => (
                         <div key={product.id} className="card" style={{ width: '18rem', margin: '1rem' }}>
-                            <img src={product.imagen} className="card-img-top" alt={product.nombre} />
+                            <img src={getImageSrc(product.imagen)} className="card-img-top" alt={product.nombre} />
                             <div className="card-body">
                                 <h5 className="card-title">{upperCase(product.nombre)}</h5>
                                 <hr />

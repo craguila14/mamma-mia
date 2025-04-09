@@ -16,10 +16,9 @@ const DeleteProduct = ({ productoId, onProductDeleted }) => {
         <Button
             variant="danger"
             size="sm"
-            onClick={() => setEditandoProducto(producto)}
+            onClick={handleDelete}
             style={{ marginRight: '0.5rem' }}
         >
-        
             Eliminar Producto
         </Button>
     );

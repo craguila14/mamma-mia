@@ -63,7 +63,7 @@ const Admin = () => {
                                 <td>{producto.ingredientes ? producto.ingredientes.join(', ') : 'N/A'}</td>
                                 <td>
                                     <img
-                                        src={producto.imagen}
+                                        src={`http://localhost:3000/${producto.imagen}`}
                                         alt={producto.nombre}
                                         style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                                     />
