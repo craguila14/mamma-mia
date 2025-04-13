@@ -87,6 +87,27 @@ const Login = () => {
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
 
+            <div className="d-flex justify-content-between mb-3">
+              <a 
+                href="/registrarse" 
+                className="text-primary"
+                style={{ fontSize: '0.8rem', textDecoration: 'none', transition: 'transform 0.2s' }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                ¿No tienes cuenta? Regístrate aquí
+              </a>
+              <a 
+                href="/recover-password" 
+                className="text-primary"
+                style={{ fontSize: '0.8rem', textDecoration: 'none', transition: 'transform 0.2s' }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                Olvidé mi contraseña
+              </a>
+            </div>
+
             {error && (
               <>
                 <div className="text-danger">{error}</div>
@@ -96,7 +117,7 @@ const Login = () => {
               </>
             )}
 
-            <Button type="submit" className="mt-3 w-100 bg-info">Iniciar Sesión</Button>
+            <Button type="submit" className="w-100 bg-info">Iniciar Sesión</Button>
           </Form>
         </Card.Body>
       </Card>

@@ -25,7 +25,6 @@ const Home = () => {
     };
 
     const getImageSrc = (image) => {
-        // Verifica si la imagen es una URL externa o una ruta local
         return image.startsWith('http') ? image : `http://localhost:3000/${image}`;
     };
 

@@ -12,6 +12,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Admin from "./views/Admin";
 import Confirmacion from "./views/Confirmacion";
 import ProtectedRoute from './components/ProtectedRoute';
+import RecoverPassword from "./views/RecoverPassword";
 
 const App = () => {
 
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/carrito" element={<ShoppingCart/>}/>
           <Route path="/registrarse" element={<Registrarse/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/recover-password" element={<RecoverPassword/>}/>
           <Route
             path="/perfil"
             element={

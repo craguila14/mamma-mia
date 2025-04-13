@@ -29,7 +29,11 @@ const ProductsDetails = () => {
     return (
         <div key={product.id} style={{ margin: '2rem', display: 'flex', marginTop: '76px' }}>
             <div style={{ marginRight: '1rem' }}>
-                <img src={getImageSrc(product.imagen)} alt={product.nombre} />
+                <img
+                    src={getImageSrc(product.imagen)}
+                    alt={product.nombre}
+                    style={{ width: '640px', height: '426px', objectFit: 'cover' }} 
+                />
             </div>
             <div>
                 <h2>{upperCase(product.nombre)}</h2>

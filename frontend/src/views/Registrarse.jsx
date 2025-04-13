@@ -153,9 +153,30 @@ const Registrarse = () => {
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
 
+            <div className="d-flex justify-content-between mb-3">
+              <a 
+                href="/login" 
+                className="text-primary"
+                style={{ fontSize: '0.8rem', textDecoration: 'none', transition: 'transform 0.2s' }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                ¿Ya tienes una cuenta? Inicia sesión
+              </a>
+              <a 
+                href="/recover-password" 
+                className="text-primary"
+                style={{ fontSize: '0.8rem', textDecoration: 'none', transition: 'transform 0.2s' }}
+                onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                Olvidé mi contraseña
+              </a>
+            </div>
+
             {error && <div className="text-danger">{error}</div>}
 
-            <Button type="submit" className="mt-3 w-100 bg-info">Registrarse</Button>
+            <Button type="submit" className="w-100 bg-info">Registrarse</Button>
           </Form>
         </Card.Body>
       </Card>
