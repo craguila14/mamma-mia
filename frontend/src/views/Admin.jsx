@@ -39,6 +39,10 @@ const Admin = () => {
         setProductos((prev) => prev.filter((producto) => producto.id !== productoId));
     };
 
+    const getImageSrc = (image) => {
+        return image.startsWith('http') ? image : `http://localhost:3000/${image}`;
+    };
+
     return (
         <div style={{ padding: '2rem', marginTop: '56px' }}>
             <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Administrar Productos</h1>
@@ -62,11 +66,13 @@ const Admin = () => {
                                 <td>${producto.precio}</td>
                                 <td>{producto.ingredientes ? producto.ingredientes.join(', ') : 'N/A'}</td>
                                 <td>
-                                    <img
-                                        src={`http://localhost:3000/${producto.imagen}`}
-                                        alt={producto.nombre}
-                                        style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                                    />
+
+                                <img 
+                                    src={getImageSrc(producto.imagen)} 
+                                    alt={producto.nombre}
+                                    style={{ width: '50px', height: '50px', objectFit: 'cover'}}
+                                />
+    
                                 </td>
                                 <td>
                                     <Button
