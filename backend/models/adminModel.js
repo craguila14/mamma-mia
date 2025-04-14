@@ -1,5 +1,6 @@
 import pool from '../config/db.js';
 import format from 'pg-format';
+import nodemailer from 'nodemailer';
 
 const addProduct = async ({ nombre, precio, imagen, ingredientes, categoria, descripcion }) => {
     try {
@@ -60,9 +61,33 @@ const deleteProduct = async (id) => {
     }
 }
 
+const createTransporter = () => {
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER, 
+      pass: process.env.EMAIL_PASS, 
+    },
+  });
+};
+
+const isEmailInDatabase = async (email) => {
+  try {
+    const query = 'SELECT 1 FROM usuarios WHERE email = $1';
+    const values = [email];
+    const result = await pool.query(query, values);
+
+    return result.rowCount > 0;
+  } catch (error) {
+    console.error('Error al verificar correo en la base de datos:', error.message);
+    throw error;
+  }
+};
 
 export const adminModel = {
     addProduct,
     editProduct,
-    deleteProduct
+    deleteProduct,
+    createTransporter,
+    isEmailInDatabase
 };

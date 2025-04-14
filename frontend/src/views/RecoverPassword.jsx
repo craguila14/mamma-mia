@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 import { Button, Card, Col, Form } from 'react-bootstrap';
+import axios from 'axios';
 
 const RecoverPassword = () => {
   const [email, setEmail] = useState('');
   const [validated, setValidated] = useState(false);
+  const [message, setMessage] = useState({ text: '', type: '' }); 
 
   const handleChange = (event) => {
     setEmail(event.target.value);
+    setMessage({ text: '', type: '' }); 
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
 
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-
-      console.log('Password recovery email sent to:', email);
+      try {
+        const response = await axios.post('http://localhost:3000/admin/verify-email', { email });
+        setMessage({ text: response.data.message, type: 'success' }); 
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setMessage({ text: 'El correo no tiene una cuenta asociada', type: 'error' }); 
+        } else {
+          console.error('Error:', error);
+          setMessage({ text: 'Ocurrió un error al procesar la solicitud', type: 'error' }); 
+        }
+      }
     }
 
     setValidated(true);
@@ -38,6 +50,14 @@ const RecoverPassword = () => {
                 onChange={handleChange}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              {message.text && (
+                <div 
+                  className={`mt-2 text-${message.type === 'success' ? 'success' : 'danger'}`}
+                  style={{ fontSize: '0.9rem' }}
+                >
+                  {message.text}
+                </div>
+              )}
             </Form.Group>
 
             <div className="d-flex justify-content-between mb-3">

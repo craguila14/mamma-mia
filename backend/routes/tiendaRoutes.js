@@ -28,4 +28,8 @@ router.put('/admin-edit-product/:id', upload.single('imagen'), adminController.e
 
 router.delete('/admin-delete-product/:id', adminController.deleteProduct);
 
+router.post('/admin/send-email', adminController.sendEmail);
+
+router.post('/admin/verify-email', adminController.verifyAndSendEmail);
+
 export default router

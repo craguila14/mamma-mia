@@ -2,7 +2,7 @@ import {adminModel} from '../models/adminModel.js'
 import jwt from 'jsonwebtoken'
 import 'dotenv/config'
 
-export const addProduct = async (req, res) => {
+const addProduct = async (req, res) => {
     try {
         const { nombre, precio, ingredientes, categoria, descripcion } = req.body;
         const imagen = req.file ? `uploads/${req.file.filename}` : null;
@@ -73,9 +73,58 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+const sendEmail = async (req, res) => {
+  const { nombre, email, mensaje } = req.body;
+
+  const transporter = adminModel.createTransporter();
+
+  const mailOptions = {
+    from: email,
+    to: process.env.EMAIL_RECEIVER,
+    subject: `Nuevo mensaje de ${nombre}`,
+    text: mensaje,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: 'Correo enviado con éxito' });
+  } catch (error) {
+    console.error('Error al enviar correo:', error);
+    res.status(500).json({ message: 'Error al enviar correo' });
+  }
+};
+
+const verifyAndSendEmail = async (req, res) => {
+  const { email } = req.body;
+
+  const emailExists = await adminModel.isEmailInDatabase(email);
+  if (!emailExists) {
+    return res.status(404).json({ message: 'El correo no tiene una cuenta asociada' });
+  }
+
+  const transporter = adminModel.createTransporter();
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Recuperación de contraseña',
+    text: 'Nuestro equipo de soporte se contactará contigo.',
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: 'Correo enviado con éxito' });
+  } catch (error) {
+    console.error('Error al enviar correo:', error);
+    res.status(500).json({ message: 'Error al enviar correo' });
+  }
+};
+
+
 export const adminController = {
     addProduct,
     editProduct,
-    deleteProduct
+    deleteProduct,
+    sendEmail,
+    verifyAndSendEmail
 }
 

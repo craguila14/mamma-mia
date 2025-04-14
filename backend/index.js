@@ -4,6 +4,8 @@ import cors from 'cors';
 import routes from './routes/tiendaRoutes.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import nodemailer from 'nodemailer';
+import bodyParser from 'body-parser';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,9 +18,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Agrega este middleware para procesar FormData
+app.use(express.urlencoded({ extended: true })); 
+app.use(bodyParser.json());
 
-// Configura la carpeta 'uploads' como un recurso estático
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rutas
