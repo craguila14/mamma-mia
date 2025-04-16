@@ -1,5 +1,4 @@
 import pool from '../config/db.js';
-import format from 'pg-format';
 import nodemailer from 'nodemailer';
 
 const addProduct = async ({ nombre, precio, imagen, ingredientes, categoria, descripcion }) => {

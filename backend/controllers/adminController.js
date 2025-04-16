@@ -1,5 +1,4 @@
 import {adminModel} from '../models/adminModel.js'
-import jwt from 'jsonwebtoken'
 import 'dotenv/config'
 
 const addProduct = async (req, res) => {

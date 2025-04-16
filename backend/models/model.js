@@ -1,6 +1,5 @@
 import pool from '../config/db.js'
 import bcrypt from 'bcrypt';
-import format from 'pg-format';
 
 const createUser = async (nombre, apellido, email, password) => {
     try {
