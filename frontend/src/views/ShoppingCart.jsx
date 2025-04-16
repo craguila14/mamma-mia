@@ -78,7 +78,6 @@ const ShoppingCart = () => {
             <button className='btn btn-success' onClick={handleCheckout}>
                 Ir a pagar
             </button>
-            {/* Mostrar advertencia si el carrito está vacío */}
             {warning && <span style={{ color: 'red', marginLeft: '10px' }}>{warning}</span>}
         </div>
     );

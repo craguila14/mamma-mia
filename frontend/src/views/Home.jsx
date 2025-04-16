@@ -54,7 +54,7 @@ const Home = () => {
                         <button
                             style={{ width: '100%', marginBottom: '0.5rem' }}
                             className="btn btn-primary"
-                            onClick={() => handleCategoryClick('pastas')}
+                            onClick={() => handleCategoryClick('pasta')}
                         >
                             Pastas
                         </button>
@@ -63,7 +63,7 @@ const Home = () => {
                         <button
                             style={{ width: '100%' }}
                             className="btn btn-primary"
-                            onClick={() => handleCategoryClick('postres')}
+                            onClick={() => handleCategoryClick('postre')}
                         >
                             Postres
                         </button>
