@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Table, Button } from 'react-bootstrap';
 import AddProduct from '../components/AddProduct';
@@ -6,9 +6,11 @@ import EditProduct from '../components/EditProduct';
 import DeleteProduct from '../components/DeleteProduct';
 
 const Admin = () => {
+    const editSectionRef = useRef(null);
     const [productos, setProductos] = useState([]);
     const [editandoProducto, setEditandoProducto] = useState(null);
     const [mostrarAgregar, setMostrarAgregar] = useState(false);
+    
 
     useEffect(() => {
         const fetchProductos = async () => {
@@ -22,6 +24,17 @@ const Admin = () => {
 
         fetchProductos();
     }, []);
+
+    const scrollToEdit = () => {
+        if (editSectionRef.current) {
+            editSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    const handleEditClick = (producto) => {
+        setEditandoProducto(producto); 
+        scrollToEdit();
+    };
 
     const handleProductAdded = (nuevoProducto) => {
         setProductos((prev) => [...prev, nuevoProducto]);
@@ -66,19 +79,17 @@ const Admin = () => {
                                 <td>${producto.precio}</td>
                                 <td>{producto.ingredientes ? producto.ingredientes.join(', ') : 'N/A'}</td>
                                 <td>
-
-                                <img 
-                                    src={getImageSrc(producto.imagen)} 
-                                    alt={producto.nombre}
-                                    style={{ width: '50px', height: '50px', objectFit: 'cover'}}
-                                />
-    
+                                    <img 
+                                        src={getImageSrc(producto.imagen)} 
+                                        alt={producto.nombre}
+                                        style={{ width: '50px', height: '50px', objectFit: 'cover'}}
+                                    />
                                 </td>
                                 <td>
                                     <Button
                                         variant="primary"
                                         size="sm"
-                                        onClick={() => setEditandoProducto(producto)}
+                                        onClick={() => handleEditClick(producto)}
                                         style={{ marginRight: '0.5rem' }}
                                     >
                                         Editar
@@ -107,7 +118,7 @@ const Admin = () => {
             )}
 
             {editandoProducto && (
-                <div style={{ marginBottom: '2rem' }}>
+                <div ref={editSectionRef} style={{ marginBottom: '2rem' }}>
                     <EditProduct
                         producto={editandoProducto}
                         onProductUpdated={handleProductUpdated}

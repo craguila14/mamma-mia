@@ -38,3 +38,20 @@ INSERT INTO productos (nombre, precio, ingredientes, imagen, categoria, descripc
 ('Tiramisu', 4850, ARRAY['queso mascarpone', 'café', 'bizcochos de soletilla', 'cacao en polvo'], 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLKWl_QSk_XZAhJbz_SxRP5CPLIl3NXWT15w&s', 'postre', 'El tiramisú es un postre italiano frío y cremoso, elaborado en capas con bizcochos de soletilla empapados en café, una suave crema de queso mascarpone con huevos y azúcar, y espolvoreado con cacao en polvo. Su nombre significa "levántame el ánimo", y es famoso por su equilibrio entre el amargor del café, la dulzura de la crema y el toque intenso del cacao.'),
 ('Cannoli', 2980, ARRAY['ricotta', 'chips de chocolate', 'ralladura de naranja', 'fruta confitada', 'pistachos picados'], 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLODnOChPZz5syXSDalOZDrmUCu3hiIt_oKw&s', 'postre', 'El cannoli es un tradicional postre siciliano compuesto por una caña crujiente de masa frita, rellena de una suave crema de ricotta azucarada. Suele llevar trocitos de chocolate, frutas confitadas o pistachos en los extremos, y se espolvorea con azúcar glas. Es famoso por su contraste entre la textura crocante de la masa y la cremosidad dulce del relleno.');
 
+create table reservas (
+id serial primary key,
+usuario_id uuid not null,
+fecha date not null,
+hora time not null,
+personas integer not null check (personas > 0 and personas <= 20),
+telefono varchar (20),
+mensaje text,
+creado_en timestamp default current_timestamp,
+
+foreign key (usuario_id) references usuarios(id) on delete cascade
+);
+
+CREATE TYPE estado_reserva AS ENUM ('confirmada', 'finalizada', 'cancelada');
+
+ALTER TABLE reservas
+ADD COLUMN estado estado_reserva NOT NULL DEFAULT 'confirmada';
