@@ -27,6 +27,9 @@ const NavbarComponent = () => {
           <Nav.Link as={NavLink} className={setActiveClass} to="/perfil" style={{ color: "white" }}>
             Mi perfil
           </Nav.Link>
+          <Nav.Link as={NavLink} className={setActiveClass} to="/admin-reservas" style={{ color: "white" }}>
+            Reservas
+          </Nav.Link>
         </Nav>
       );
     }

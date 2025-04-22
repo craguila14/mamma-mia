@@ -14,6 +14,7 @@ import Confirmacion from "./views/Confirmacion";
 import ProtectedRoute from './components/ProtectedRoute';
 import RecoverPassword from "./views/RecoverPassword";
 import ReservaUsuario from "./views/ReservaUsuario";
+import AdminReservas from "./views/AdminReservas";
 
 const App = () => {
 
@@ -30,7 +31,16 @@ const App = () => {
           <Route path="/registrarse" element={<Registrarse/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover-password" element={<RecoverPassword/>}/>
-          <Route path="/reserva" element={<ReservaUsuario/>}/>
+
+          <Route
+            path="/reserva"
+            element={
+              <ProtectedRoute>
+                <ReservaUsuario />
+              </ProtectedRoute>
+            }
+          />
+      
           <Route
             path="/perfil"
             element={
@@ -44,6 +54,14 @@ const App = () => {
             element={
               <ProtectedRoute adminOnly={true}>
                 <Admin />
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/admin-reservas"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminReservas />
               </ProtectedRoute>
             }
           />
