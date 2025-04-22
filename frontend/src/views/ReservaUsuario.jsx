@@ -40,11 +40,15 @@ const ReservaUsuario = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const response = await axios.get('http://localhost:3000/reservas/usuario', config);
+            const response = await axios.get('http://localhost:3000/reservas/usuario', config); 
             setReservas(response.data);
         } catch (error) {
             console.error('Error al obtener las reservas:', error);
-            alert('Error al obtener las reservas');
+            if (error.code === 'ERR_NETWORK') {
+                alert('Error de red: No se pudo conectar con el servidor. Verifique que el backend esté en ejecución.');
+            } else {
+                alert('Error al obtener las reservas');
+            }
         }
     };
 

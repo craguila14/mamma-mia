@@ -1,7 +1,31 @@
 import pool from '../config/db.js'
 
 const crearReserva = async (reserva) => {
-    const { usuario_id, fecha, hora, personas, telefono, mensaje, nombre, apellido } = reserva;
+    const {
+        usuario_id,
+        fecha,
+        hora,
+        personas,
+        telefono,
+        mensaje,
+        nombre,
+        apellido
+    } = reserva;
+
+    const capacityQuery = `
+        SELECT COALESCE(SUM(personas), 0) AS total_personas
+        FROM reservas
+        WHERE fecha = $1 AND hora = $2;
+    `;
+    const capacityResult = await pool.query(capacityQuery, [fecha, hora]);
+    const totalPersonas = capacityResult.rows[0].total_personas;
+
+    if (totalPersonas + personas > 40) {
+        throw new Error(
+            'La capacidad máxima del restaurante para ese horario ha sido alcanzada.'
+        );
+    }
+
     const query = `
         INSERT INTO reservas (usuario_id, fecha, hora, personas, telefono, mensaje, nombre, apellido)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
@@ -9,8 +33,10 @@ const crearReserva = async (reserva) => {
     `;
     const values = [usuario_id, fecha, hora, personas, telefono, mensaje, nombre, apellido];
     const result = await pool.query(query, values);
+
     return result.rows[0];
 };
+
 
 const obtenerReservas = async () => {
     const query = 'SELECT * FROM reservas ORDER BY creado_en DESC;';

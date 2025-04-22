@@ -2,11 +2,14 @@ import { reservasModel } from "../models/reservasModel.js";
 
 const crearReserva = async (req, res) => {
     try {
-        const usuario_id = req.user.id
+        const usuario_id = req.user.id;
         const nuevaReserva = await reservasModel.crearReserva({ ...req.body, usuario_id });
         res.status(201).json(nuevaReserva);
     } catch (error) {
         console.error('Error al crear la reserva:', error);
+        if (error.message === 'La capacidad máxima del restaurante para este día ha sido alcanzada.') {
+            return res.status(400).json({ error: error.message });
+        }
         res.status(500).json({ error: 'Error al crear la reserva' });
     }
 };
