@@ -13,6 +13,7 @@ import Admin from "./views/Admin";
 import Confirmacion from "./views/Confirmacion";
 import ProtectedRoute from './components/ProtectedRoute';
 import RecoverPassword from "./views/RecoverPassword";
+import ReservaUsuario from "./views/ReservaUsuario";
 
 const App = () => {
 
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/registrarse" element={<Registrarse/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/recover-password" element={<RecoverPassword/>}/>
+          <Route path="/reserva" element={<ReservaUsuario/>}/>
           <Route
             path="/perfil"
             element={

@@ -55,3 +55,9 @@ CREATE TYPE estado_reserva AS ENUM ('confirmada', 'finalizada', 'cancelada');
 
 ALTER TABLE reservas
 ADD COLUMN estado estado_reserva NOT NULL DEFAULT 'confirmada';
+
+ALTER table reservas
+add column nombre VARCHAR(100);
+
+alter table reservas
+add column apellido VARCHAR(100);

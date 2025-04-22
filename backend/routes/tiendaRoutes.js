@@ -29,6 +29,8 @@ router.put('/update-reserva/:id', middleware.authenticateToken, reservasControll
 
 router.delete('/delete-reserva/:id', middleware.authenticateToken, reservasController.eliminarReserva);
 
+router.get('/reservas/usuario', middleware.authenticateToken, reservasController.obtenerReservasPorUsuario);
+
 //admin
 
 router.post('/admin-add-product', upload.single('imagen'), adminController.addProduct);
@@ -41,10 +43,10 @@ router.post('/admin/send-email', adminController.sendEmail);
 
 router.post('/admin/verify-email', adminController.verifyAndSendEmail);
 
-router.get('/admin/reservas', middleware.authenticateToken, reservasController.obtenerReservas);
+router.get('/admin/reservas', reservasController.obtenerReservas);
 
-router.put('/admin/update-reservas/:id', middleware.authenticateToken, reservasController.actualizarReservaAdmin )
+router.put('/admin/update-reservas/:id', reservasController.actualizarReservaAdmin )
 
-router.delete('/admin/delete-reserva/:id', middleware.authenticateToken, reservasController.eliminarReserva)
+router.delete('/admin/delete-reserva/:id', reservasController.eliminarReserva)
 
 export default router

@@ -36,7 +36,7 @@ const obtenerReservaPorId = async (req, res) => {
 
 const actualizarReservaAdmin = async (req, res) => {
     try {
-        const reservaActualizada = await reservasModel.actualizarReserva(req.params.id, req.body.estado);
+        const reservaActualizada = await reservasModel.actualizarReservaAdmin(req.params.id, req.body.estado);
         if (!reservaActualizada) {
             return res.status(404).json({ error: 'Reserva no encontrada' });
         }
@@ -70,6 +70,17 @@ const eliminarReserva = async (req, res) => {
     }
 };
 
+const obtenerReservasPorUsuario = async (req, res) => {
+    try {
+        const usuario_id = req.user.id; // Obtener el usuario_id del token
+        const reservas = await reservasModel.obtenerReservasPorUsuario(usuario_id);
+        res.status(200).json(reservas);
+    } catch (error) {
+        console.error('Error al obtener las reservas del usuario:', error);
+        res.status(500).json({ error: 'Error al obtener las reservas del usuario' });
+    }
+};
+
 export const reservasController = {
     crearReserva,
     obtenerReservas,
@@ -77,4 +88,5 @@ export const reservasController = {
     actualizarReservaAdmin,
     actualizarReservaUsuario,
     eliminarReserva,
+    obtenerReservasPorUsuario,
 };

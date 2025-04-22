@@ -2,10 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import { ProductsContext } from '../context/ProductsContext';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/ShoppingCartContext';
+import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
     const { products, getProductsByCategory, upperCase, loading, error } = useContext(ProductsContext);
     const { addToCart } = useContext(CartContext);
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,6 +28,14 @@ const Home = () => {
 
     const getImageSrc = (image) => {
         return image.startsWith('http') ? image : `http://localhost:3000/${image}`;
+    };
+
+    const handleReservaClick = () => {
+        if (currentUser) {
+            navigate('/reserva');
+        } else {
+            navigate('/login');
+        }
     };
 
     return (
@@ -69,6 +79,25 @@ const Home = () => {
                         </button>
                     </li>
                 </ul>
+                <div
+                    style={{
+                        marginTop: '2rem',
+                        padding: '1rem',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px',
+                        textAlign: 'center',
+                        backgroundColor: 'white'
+                    }}
+                >
+                    <h5>¡Visítanos!</h5>
+                    <p>Reserva tu mesa y disfruta de una experiencia única.</p>
+                    <button
+                        className="btn btn-success"
+                        onClick={handleReservaClick}
+                    >
+                        Haz tu reserva aquí
+                    </button>
+                </div>
         </div>
 
             <div style={{ width: '80%', padding: '1rem', marginLeft: '20%' }}>
