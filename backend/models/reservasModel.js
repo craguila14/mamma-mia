@@ -11,7 +11,6 @@ const crearReserva = async (reserva) => {
         nombre,
         apellido
     } = reserva;
-
     const capacityQuery = `
         SELECT COALESCE(SUM(personas), 0) AS total_personas
         FROM reservas
@@ -39,7 +38,7 @@ const crearReserva = async (reserva) => {
 
 
 const obtenerReservas = async () => {
-    const query = 'SELECT * FROM reservas ORDER BY creado_en DESC;';
+    const query = 'SELECT * FROM reservas ORDER BY fecha ASC, hora ASC;'
     const result = await pool.query(query);
     return result.rows;
 };
