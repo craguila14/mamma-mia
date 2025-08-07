@@ -105,7 +105,6 @@ const ReservaUsuario = () => {
                 },
             };
             await axios.put(`http://localhost:3000/update-reserva/${reservaId}`, reserva, config);
-            alert('Reserva actualizada con éxito');
             setReservaId(null); 
             setReserva({
                 nombre: '',
@@ -136,7 +135,6 @@ const ReservaUsuario = () => {
                 },
             };
             await axios.delete(`http://localhost:3000/delete-reserva/${id}`, config);
-            alert('Reserva eliminada con éxito');
             fetchReservas(); 
         } catch (error) {
             console.error('Error al eliminar la reserva:', error);

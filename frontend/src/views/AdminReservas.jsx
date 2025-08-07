@@ -36,7 +36,6 @@ const AdminReservas = () => {
                 },
             };
             await axios.put(`http://localhost:3000/admin/update-reservas/${id}`, { estado }, config);
-            alert('Estado de la reserva actualizado con éxito');
             setEstado('');
             setSelectedReservaId(null);
             fetchReservas();
@@ -55,7 +54,6 @@ const AdminReservas = () => {
                 },
             };
             await axios.delete(`http://localhost:3000/admin/delete-reserva/${id}`, config);
-            alert('Reserva eliminada con éxito');
             fetchReservas();
         } catch (error) {
             console.error('Error al eliminar la reserva:', error);

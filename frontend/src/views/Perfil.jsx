@@ -67,7 +67,6 @@ const Perfil = () => {
           },
           config
         );
-        alert('Contraseña actualizada correctamente.');
       }
 
       setIsEditing(false);
