@@ -11,6 +11,9 @@ const config = {
     password: DB_PASSWORD,
     database: DB_DATABASE,
     charset: DB_CHARSET,
+    ssl: {
+    rejectUnauthorized: false
+  },
     allowExitOnIdle: true
 }
 
