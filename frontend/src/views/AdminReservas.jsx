@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { environment } from '../environment';   
+import { environment } from '../../environment';
 const baseUrl = environment.baseUrl;
 
 const AdminReservas = () => {

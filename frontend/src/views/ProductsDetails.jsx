@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ProductsContext } from '../context/ProductsContext';
 import { useParams } from 'react-router-dom';
 import { CartContext } from '../context/ShoppingCartContext';
-import { environment } from '../environment';
+import { environment } from '../../environment';
 const baseUrl = environment.baseUrl;
 
 const ProductsDetails = () => {

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { environment } from '../environment';
+import { environment } from '../../environment';
 
 const baseUrl = environment.baseUrl;
 

@@ -4,7 +4,7 @@ import { Table, Button } from 'react-bootstrap';
 import AddProduct from '../components/AddProduct';
 import EditProduct from '../components/EditProduct';
 import DeleteProduct from '../components/DeleteProduct';
-import { environment } from '../environment';
+import { environment } from '../../environment';
 
 const baseURL = environment.baseUrl;
 

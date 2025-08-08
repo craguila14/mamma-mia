@@ -3,7 +3,7 @@ import { ProductsContext } from '../context/ProductsContext';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/ShoppingCartContext';
 import { useAuth } from '../context/AuthContext';
-import { environment } from '../environment';
+import { environment } from '../../environment';
 
 const baseUrl = environment.baseUrl;
 
