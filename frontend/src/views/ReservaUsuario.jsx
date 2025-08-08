@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useAuth } from '../context/AuthContext';
+import { environment } from '../environment';
+const baseUrl = environment.baseUrl;
 
 const ReservaUsuario = () => {
     const { currentUser } = useAuth();
@@ -40,7 +42,7 @@ const ReservaUsuario = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const response = await axios.get('http://localhost:3000/reservas/usuario', config); 
+            const response = await axios.get(`${baseUrl}/reservas/usuario`, config); 
             setReservas(response.data);
         } catch (error) {
             console.error('Error al obtener las reservas:', error);
@@ -70,7 +72,7 @@ const ReservaUsuario = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const response = await axios.post('http://localhost:3000/reservas', reserva, config);
+            const response = await axios.post(`${baseUrl}/reservas`, reserva, config);
             setReservaId(response.data.id);
             fetchReservas(); 
         } catch (error) {
@@ -104,7 +106,7 @@ const ReservaUsuario = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            await axios.put(`http://localhost:3000/update-reserva/${reservaId}`, reserva, config);
+            await axios.put(`${baseUrl}/update-reserva/${reservaId}`, reserva, config);
             setReservaId(null); 
             setReserva({
                 nombre: '',
@@ -134,7 +136,7 @@ const ReservaUsuario = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            await axios.delete(`http://localhost:3000/delete-reserva/${id}`, config);
+            await axios.delete(`${baseUrl}/delete-reserva/${id}`, config);
             fetchReservas(); 
         } catch (error) {
             console.error('Error al eliminar la reserva:', error);

@@ -20,7 +20,7 @@ const RecoverPassword = () => {
       event.stopPropagation();
     } else {
       try {
-        const response = await axios.post('http://localhost:3000/admin/verify-email', { email });
+        const response = await axios.post(`${baseUrl}/admin/verify-email`, { email });
         setMessage({ text: response.data.message, type: 'success' }); 
       } catch (error) {
         if (error.response && error.response.status === 404) {

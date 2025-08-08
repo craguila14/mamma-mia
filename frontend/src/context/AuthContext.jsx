@@ -1,8 +1,12 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie'
-import { ENDPOINT } from '../config/constants';
+// import { ENDPOINT } from '../config/constants';
 const AuthContext = createContext();
+
+import { environment } from '../../environment';
+
+const baseUrl = environment.baseUrl;
 
 export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
@@ -21,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   const registerUser = async (userData) => {
     try {
       
-      await axios.post('http://localhost:3000/registrarse', userData);
+      await axios.post(`${baseUrl}/registrarse`, userData);
       return { success: true, message: 'Usuario registrado con éxito.' };
     } catch (error) {
       console.error('Error al registrar usuario:', error);
@@ -32,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserData = async (token) => {
     try {
-      const response = await axios.get(ENDPOINT.users, {
+      const response = await axios.get(`${baseUrl}/usuario`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.data) {
@@ -55,7 +59,7 @@ export const AuthProvider = ({ children }) => {
 
   const loginUser = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:3000/login', { email, password });
+      const response = await axios.post(`${baseUrl}/login`, { email, password });
       if (response.data.token) {
         Cookies.set('token', response.data.token, { expires: 7 });
         const userData = await fetchUserData(response.data.token);

@@ -3,6 +3,9 @@ import { ProductsContext } from '../context/ProductsContext';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/ShoppingCartContext';
 import { useAuth } from '../context/AuthContext';
+import { environment } from '../environment';
+
+const baseUrl = environment.baseUrl;
 
 const Home = () => {
     const { products, getProductsByCategory, upperCase, loading, error } = useContext(ProductsContext);
@@ -27,7 +30,7 @@ const Home = () => {
     };
 
     const getImageSrc = (image) => {
-        return image.startsWith('http') ? image : `http://localhost:3000/${image}`;
+        return image.startsWith('http') ? image : `${baseUrl}/${image}`;
     };
 
     const handleReservaClick = () => {

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { environment } from '../../environment';
+
+const baseUrl = environment.baseUrl;
 
 const AddProduct = ({ onProductAdded }) => {
     const [nuevoProducto, setNuevoProducto] = useState({
@@ -42,7 +45,7 @@ const AddProduct = ({ onProductAdded }) => {
                 formData.append('imagen', imagen);
             }
 
-            const response = await axios.post('http://localhost:3000/admin-add-product', formData, {
+            const response = await axios.post(`${baseUrl}/admin-add-product`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

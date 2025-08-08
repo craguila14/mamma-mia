@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { environment } from '../environment';
+
+const baseUrl = environment.baseUrl;
 
 export const ProductsContext = createContext();
 
@@ -12,7 +15,7 @@ const ProductsProvider = ({ children }) => {
         setLoading(true); 
         setError(null); 
         try {
-            const response = await axios.get('http://localhost:3000/productos'); 
+            const response = await axios.get(`${baseUrl}/productos`); 
             setProducts(response.data); 
         } catch (error) {
             console.error('Error al obtener productos:', error);
@@ -27,7 +30,7 @@ const ProductsProvider = ({ children }) => {
         setLoading(true); 
         setError(null); 
         try {
-            const url = `http://localhost:3000/productos/categoria/${categoria}`; 
+            const url = `${baseUrl}/productos/categoria/${categoria}`; 
             const response = await axios.get(url);
             setProducts(response.data); 
         } catch (error) {

@@ -4,6 +4,9 @@ import { Card, Form, Button, Col } from 'react-bootstrap';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+import { environment } from '../environment';
+const baseUrl = environment.baseUrl;
+
 const Perfil = () => {
   const { currentUser, setCurrentUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
@@ -51,7 +54,7 @@ const Perfil = () => {
     try {
   
       if (userInfo.nombre && userInfo.apellido && userInfo.email) {
-        const response = await axios.put('http://localhost:3000/usuario', userInfo, config);
+        const response = await axios.put(`${baseUrl}/usuario`, userInfo, config);
         setCurrentUser(response.data);
       } else {
         setError('Por favor, complete todos los campos del perfil.');
@@ -60,7 +63,7 @@ const Perfil = () => {
 
       if (passwordInfo.currentPassword && passwordInfo.newPassword) {
         await axios.put(
-          'http://localhost:3000/usuario/password',
+          `${baseUrl}/usuario/password`,
           {
             currentPassword: passwordInfo.currentPassword,
             newPassword: passwordInfo.newPassword,

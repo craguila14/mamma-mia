@@ -4,6 +4,9 @@ import { Table, Button } from 'react-bootstrap';
 import AddProduct from '../components/AddProduct';
 import EditProduct from '../components/EditProduct';
 import DeleteProduct from '../components/DeleteProduct';
+import { environment } from '../environment';
+
+const baseURL = environment.baseUrl;
 
 const Admin = () => {
     const editSectionRef = useRef(null);
@@ -15,7 +18,7 @@ const Admin = () => {
     useEffect(() => {
         const fetchProductos = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/productos');
+                const response = await axios.get(`${baseURL}/productos`);
                 setProductos(response.data);
             } catch (error) {
                 console.error('Error al obtener los productos:', error);

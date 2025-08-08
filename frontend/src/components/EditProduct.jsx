@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { environment } from '../../environment';
+
+const baseUrl = environment.baseUrl;
 
 const EditProduct = ({ producto, onProductUpdated, onCancel }) => {
     const [productoEditado, setProductoEditado] = useState(producto);
@@ -43,7 +46,7 @@ const EditProduct = ({ producto, onProductUpdated, onCancel }) => {
                 formData.append('imagen', productoEditado.imagen || ''); 
             }
 
-            const response = await axios.put(`http://localhost:3000/admin-edit-product/${producto.id}`, formData, {
+            const response = await axios.put(`${baseUrl}/admin-edit-product/${producto.id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

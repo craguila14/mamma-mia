@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ProductsContext } from '../context/ProductsContext';
 import { useParams } from 'react-router-dom';
 import { CartContext } from '../context/ShoppingCartContext';
+import { environment } from '../environment';
+const baseUrl = environment.baseUrl;
 
 const ProductsDetails = () => {
     const { products, upperCase } = useContext(ProductsContext);
@@ -19,7 +21,7 @@ const ProductsDetails = () => {
     };
 
     const getImageSrc = (image) => {
-        return image.startsWith('http') ? image : `http://localhost:3000/${image}`;
+        return image.startsWith('http') ? image : `${baseUrl}/${image}`;
     };
 
     if (!product) {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { environment } from '../environment';   
+const baseUrl = environment.baseUrl;
 
 const AdminReservas = () => {
     const [reservas, setReservas] = useState([]);
@@ -19,7 +21,7 @@ const AdminReservas = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const response = await axios.get('http://localhost:3000/admin/reservas', config);
+            const response = await axios.get(`${baseUrl}/admin/reservas`, config);
             setReservas(response.data);
         } catch (error) {
             console.error('Error al obtener las reservas:', error);
@@ -35,7 +37,7 @@ const AdminReservas = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            await axios.put(`http://localhost:3000/admin/update-reservas/${id}`, { estado }, config);
+            await axios.put(`${baseUrl}/admin/update-reservas/${id}`, { estado }, config);
             setEstado('');
             setSelectedReservaId(null);
             fetchReservas();
@@ -53,7 +55,7 @@ const AdminReservas = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            await axios.delete(`http://localhost:3000/admin/delete-reserva/${id}`, config);
+            await axios.delete(`${baseUrl}/admin/delete-reserva/${id}`, config);
             fetchReservas();
         } catch (error) {
             console.error('Error al eliminar la reserva:', error);
