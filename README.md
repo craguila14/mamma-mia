@@ -1,30 +1,28 @@
-🍝 Mamma Mia
+# 🍝 Mamma Mia  
 
-Aplicación web desarrollada con React y Bootstrap que simula la página web de un restaurante.
-Permite a los usuarios agregar productos al carrito, realizar reservas de mesas y cuenta con un panel de administración donde es posible gestionar y editar las reservas.
+Aplicación web de un restaurante desarrollada con **React** y **Bootstrap**.  
+Permite a los usuarios **agregar productos al carrito**, **realizar reservas de mesas**, y cuenta con un **panel de administración** para gestionar las reservas.  
 
-🚀 Demo
+---
 
-🔗 Ver aplicación desplegada (https://mamma-mia-1.onrender.com/)
+## 🚀 Demo
+🔗 [Ver aplicación desplegada](https://mamma-mia-1.onrender.com/)  
 
-🖼️ Vista previa 
+---
 
-🛠️ Tecnologías utilizadas
+## 📸 Vista previa
+(Agrega tus imágenes dentro de una carpeta `/public/screenshots` o `/assets` en tu repo y cámbiales la ruta)  
 
-Frontend: React, Bootstrap
-Estado global: Context API
-Control de versiones: Git & GitHub
-Despliegue: Render
+![Home](public/screenshots/home.png)  
+![Carrito](public/screenshots/cart.png)  
+![Reservas](public/screenshots/reservas.png)  
 
-⚙️ Instalación y uso
+---
 
-Clonar el repositorio:
-git clone https://github.com/craguila14/mamma-mia.git
-cd mamma-mia
-Instalar dependencias:
-npm install
+## 🛠️ Tecnologías utilizadas
+- ⚛️ React  
+- 🎨 Bootstrap  
+- 📦 Vite  
+- 🌐 Render (despliegue)  
 
-
-Iniciar el proyecto en modo desarrollo:
-
-npm run dev
+---
