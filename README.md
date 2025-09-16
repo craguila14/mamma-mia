@@ -52,3 +52,6 @@ Permite a los usuarios **agregar productos al carrito**, **realizar reservas de 
 6. Inicia el servidor del backend
    ```bash
    npm run start
+---
+## 👀 
+Si quieres probar la vista de administrador utiliza el correo admin@gmail.com y la contraseña admin123
