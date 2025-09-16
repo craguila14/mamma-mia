@@ -11,11 +11,7 @@ Permite a los usuarios **agregar productos al carrito**, **realizar reservas de 
 ---
 
 ## 📸 Vista previa
-(Agrega tus imágenes dentro de una carpeta `/public/screenshots` o `/assets` en tu repo y cámbiales la ruta)  
-
-![Home](public/screenshots/home.png)  
-![Carrito](public/screenshots/cart.png)  
-![Reservas](public/screenshots/reservas.png)  
+`/frontend/public/mamma-mia.png`
 
 ---
 
