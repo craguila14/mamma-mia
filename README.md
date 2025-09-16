@@ -11,7 +11,7 @@ Permite a los usuarios **agregar productos al carrito**, **realizar reservas de 
 ---
 
 ## 📸 Vista previa
-`/frontend/public/mamma-mia.png`
+![Mamma Mia](frontend/public/mamma-mia.png)
 
 ---
 
