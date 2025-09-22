@@ -27,10 +27,10 @@ Permite a los usuarios **agregar productos al carrito**, **realizar reservas de 
 ---
 ## ✨ Funcionalidades principales
 
-🛒 Agregar productos al carrito de compras
-📅 Realizar reservas de mesas
-🛠️ Panel de administración para gestionar y editar reservas
-📱 Diseño responsive con Bootstrap
+- 🛒 Agregar productos al carrito de compras
+- 📅 Realizar reservas de mesas
+- 🛠️ Panel de administración para gestionar y editar reservas
+- 📱 Diseño responsive con Bootstrap
 
 ---
 ## ⚙️ Instalación y uso
@@ -55,6 +55,3 @@ Permite a los usuarios **agregar productos al carrito**, **realizar reservas de 
    ```bash
    npm run start
 
-
-## 👀 
-Si quieres probar la vista de administrador utiliza el correo admin@gmail.com y la contraseña admin123
