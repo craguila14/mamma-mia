@@ -1,7 +1,7 @@
 # 🍝 Mamma Mia  
 
-Aplicación web de un restaurante desarrollada con **React** y **Bootstrap**.  
-Permite a los usuarios **agregar productos al carrito**, **realizar reservas de mesas**, y cuenta con un **panel de administración** para gestionar las reservas.  
+Aplicación web de un restaurante desarrollada con **React**, **Bootstrap**, **Node.js** y **Express.js**.  
+Permite a los usuarios **agregar productos al carrito**, **realizar reservas de mesas**, y cuenta con un **panel de administración** para gestionar las reservas y administrar los productos disponibles.  
 
 ---
 
@@ -16,11 +16,13 @@ Permite a los usuarios **agregar productos al carrito**, **realizar reservas de 
 ---
 
 ## 🛠️ Tecnologías utilizadas
-- ⚛️ React  
-- 🎨 Bootstrap  
-- 📦 Vite  
-- 🌐 Render (despliegue)
-- 💾 PostgresSQL
+- React  
+- Bootstrap  
+- Vite  
+- Render (despliegue)
+- PostgresSQL
+- Node.js
+- Express.js
 
 ---
 ## ✨ Funcionalidades principales
@@ -52,6 +54,7 @@ Permite a los usuarios **agregar productos al carrito**, **realizar reservas de 
 6. Inicia el servidor del backend
    ```bash
    npm run start
----
+
+
 ## 👀 
 Si quieres probar la vista de administrador utiliza el correo admin@gmail.com y la contraseña admin123
