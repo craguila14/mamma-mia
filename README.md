@@ -20,7 +20,7 @@ Permite a los usuarios **agregar productos al carrito**, **realizar reservas de 
 - Bootstrap  
 - Vite  
 - Render (despliegue)
-- PostgresSQL
+- PostgreSQL
 - Node.js
 - Express.js
 
